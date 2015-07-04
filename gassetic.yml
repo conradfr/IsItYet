@@ -1,0 +1,126 @@
+requires:
+    concat: gulp-concat
+    minify: gulp-minify-css
+    sourcemaps: gulp-sourcemaps
+    plumber: gulp-plumber
+    less: gulp-less
+    uglify: gulp-uglify
+    react: gulp-react
+    copy: gulp-copy
+    browserify: gulp-browserify
+#    gwatchify: web/gulp_tasks/gwatchify.js
+
+mimetypes:
+    css:
+        # In 'prod' mode, use these settings
+        prod:
+            outputFolder: web/compiled/css  # The output folder for your saving your compiled files
+            webPath:      /compiled/css     # The web path for the compiled files
+            # Run these tasks on your compiled files
+            tasks:
+                - { name: "plumber" }
+                - { name: less, filter: ['*.less'] }
+                - { name: minify }
+                - { name: concat, args: '%filename%' }
+
+        dev:
+            outputFolder: web/compiled_dev/css  # The output folder for your saving your compiled files
+            webPath:      /compiled_dev/css     # The web path for the compiled files
+            tasks:
+                - { name: "plumber" }
+                - { name: less }
+
+        # This is the list of source files to apply the above settings
+        files:
+            bootstrap.css:
+                - "web/bower_components/bootstrap/less/bootstrap.less"
+                - "web/bower_components/bootstrap/less/theme.less"
+#                - "web/css/less/material/bootswatch.less"
+
+            main.css: # This is the output filename
+                - web/css/main.less
+
+        # Watch these files for changes (optional)
+        watch:
+            - web/css/**/*.less
+            - web/css/**/*.css
+
+    fonts:
+        prod:
+            outputFolder: "web/compiled/css"
+            webPath: "/compiled/css"
+            tasks:
+                - { name: "copy", args: ['web/compiled/css', {'prefix': 3}] }
+
+        dev:
+            autoRenaming: false,
+            outputFolder: "web/compiled_dev/css"
+            webPath: "/compiled_dev/css"
+            tasks:
+                - { name: "copy", args: ['web/compiled_dev/css', {'prefix': 3}] }
+        files:
+            temp.txt:
+                - "web/bower_components/bootstrap/fonts/*"
+
+    js:
+        prod:
+            outputFolder: "web/compiled/js"
+            webPath: "/compiled/js"
+            tasks:
+                - { name: "plumber" }
+                - { name: concat, args: '%filename%' }
+
+        dev:
+            outputFolder: "web/compiled_dev/js"
+            webPath: "/compiled_dev/js"
+            tasks:
+                - { name: "plumber" }
+
+        files:
+            bootstrap.min.js:
+                - "web/bower_components/bootstrap/dist/js/bootstrap.min.js"
+
+            vendors.js:
+                - "web/js/main.js"
+                - "web/js/spin.min.js"
+
+    jsx:
+#        deps:
+#            - js
+        prod:
+            autoRenaming: false,
+            outputFolder: "web/compiled/js"
+            webPath: "/compiled/js"
+            tasks:
+                - { name: "browserify", args: {transform: "reactify", debug: false } }
+
+        dev:
+            autoRenaming: false,
+            outputFolder: "web/compiled_dev/jsx"
+            webPath: "/compiled_dev/jsx"
+            tasks:
+                - { name: "plumber" }
+                - { name: "browserify", args: {transform: "reactify", debug: true } }
+#                - { name: "gwatchify"}
+
+        files:
+            app-generator.js:
+                - "web/jsx/app-generator.js"
+#
+            app-gallery.js:
+                - "web/jsx/app-gallery.js"
+
+#            app-macro.js:
+#                - "web/jsx/app-macro.js"
+
+        watch:
+            - web/jsx/**/*.js*
+
+default:
+    - css
+    - fonts
+#    - js
+#    - jsx
+
+replacementPaths:
+    - "app/Resources/views/**/*.twig"
