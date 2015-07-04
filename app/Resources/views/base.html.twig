@@ -1,13 +1,77 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Is It ... Yet ?">
+    <title>{% block title %}IsItYet{% endblock %}</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    {% if app.environment == 'prod' %}
+        <!-- prod:bootstrap.css -->
+        <!-- endbuild -->
+
+        <!-- prod:main.css -->
+        <!-- endbuild -->
+    {% else %}
+        <!-- dev:bootstrap.css -->
+        <!-- endbuild -->
+
+        <!-- dev:main.css -->
+        <!-- endbuild -->
+    {% endif %}
+
+    {% block meta %}{% endblock %}
+
+    {% block stylesheets %}{% endblock %}
+
+    <script type="text/javascript">
+        var base_url = "{{ app.request.schemeAndHttpHost }}{{ app.environment == 'prod' ? '/' : '/app_dev.php/' }}";
+        {% block javascripts_head %}
+        {% endblock %}
+    </script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+{% block body %}{% endblock %}
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6"><p class="text-muted">© 2015 <a href="http://www.funkybits.fr">FunkyBits</a></p></div>
+            <div class="col-md-6">{#<p class="text-muted pull-right">Sources</p>#}</div>
+        </div>
+
+    </div>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% block javascripts %}
+    {% if app.environment == 'prod' %}
+        <!-- prod:vendors.js -->
+        <!-- endbuild -->
+    {% else %}
+        <!-- dev:vendors.js -->
+        <!-- endbuild -->
+    {% endif %}
+{% endblock %}
+
+{% if app.environment == 'prod' %}
+    <!-- prod:bootstrap.min.js -->
+    <!-- endbuild -->
+{% else %}
+    <!-- dev:bootstrap.min.js -->
+    <!-- endbuild -->
+
+{% endif %}
+
+{% block react %}{% endblock %}
+</body>
 </html>
