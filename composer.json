@@ -21,10 +21,13 @@
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "incenteev/composer-parameter-handler": "~2.0",
 
+        "doctrine/doctrine-fixtures-bundle": "2.2.*",
+
         "knplabs/knp-menu-bundle": "~2",
         "snc/redis-bundle": "1.1.*",
         "predis/predis": "^1.0",
-        "jms/serializer-bundle": "^0.13.0"
+        "jms/serializer-bundle": "^0.13.0",
+        "ramsey/uuid": "^2.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
