@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Rhumsaa\Uuid\Uuid;
+use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 
 /**
  * Instance
@@ -10,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="kind", type="string")
+ * @ORM\HasLifecycleCallbacks
  */
 class Instance
 {
@@ -42,6 +45,18 @@ class Instance
      * @ORM\Column(name="title", type="string")
      */
     private $title;
+
+    /** @ORM\PrePersist */
+    public function createUuidOnPrePersist()
+    {
+        try {
+            // Generate a version 4 (random) UUID object
+            $uuid4 = Uuid::uuid4();
+            $this->writeKey = $uuid4->toString();
+        } catch (UnsatisfiedDependencyException $e) {
+            echo 'Caught exception: ' . $e->getMessage() . "\n";
+        }
+    }
 
     /**
      * Get id

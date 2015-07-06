@@ -57,7 +57,7 @@ knp_menu:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
+        driver:   pdo_pgsql
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"
@@ -70,6 +70,8 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #     path:     "%database_path%"
+        types:
+#            uuid: Rhumsaa\Uuid\Doctrine\UuidType.php
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
