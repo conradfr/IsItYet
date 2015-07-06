@@ -1,7 +1,26 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% if app.environment == 'prod' %}
+<!-- prod:bootstrap.css -->
+<!-- endbuild -->
+
+<!-- prod:main.css -->
+<!-- endbuild -->
+{% else %}
+<!-- dev:bootstrap.css -->
+<link rel="stylesheet" href="/compiled_dev/css/bootstrap.css/bootswatch_0.css" />
+<!-- endbuild -->
+
+<!-- dev:main.css -->
+<link rel="stylesheet" href="/compiled_dev/css/main.css/main_0.css" />
+<!-- endbuild -->
+{% endif %}
+{% endblock %}
+
 {% block body %}
-<nav class="navbar navbar-fixed-top navbar-inverse">
+<nav class="navbar navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">

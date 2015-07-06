@@ -3,5 +3,16 @@
 {% block body %}
     {{ parent() }}
 
-    Salut
+    <div id="instance-form"></div>
+{% endblock %}
+
+{% block react %}
+{% if app.environment == 'prod' %}
+<!-- prod:app-form.js -->
+<!-- endbuild -->
+{% else %}
+<!-- dev:app-form.js -->
+<script src="/compiled_dev/jsx/app-form.js/app-form.js"></script>
+<!-- endbuild -->
+{% endif %}
 {% endblock %}

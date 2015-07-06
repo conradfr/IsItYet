@@ -1,0 +1,118 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:500|Noto+Sans:700|Open+Sans:400,600);
+
+/* colors */
+@background-color: black;
+@text: darken(white, 2%);
+
+@status-ok: green;
+@status-no: red;
+
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-image: linear-gradient(to bottom, @background-color 0px, lighten(@background-color, 3%) 100%);
+  background-repeat: repeat-x;
+  background-color: @background-color;
+
+  color: @text;
+  font-family: 'Arial', sans-serif;
+}
+
+.wrap {
+  display: table;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+
+
+  .main {
+    display: table-row;
+    text-align: center;
+    width: 100%;
+    height: 97%;
+
+    .instance-wrap {
+      display: table;
+      width: 100%;
+      height: 97%;
+
+      .row {
+        display: table-row;
+        .row-content {
+          display: table-cell;
+        }
+      }
+
+      .title {
+        height: 35%;
+
+        .row-content {
+          font-size: 3rem;
+          font-family: 'Roboto', sans-serif;
+
+          vertical-align: bottom;
+          padding: 2% 0 5% 0;
+        }
+      }
+
+      .status {
+
+        .status-ok, .status-no {
+          font-size: 3rem;
+          font-family: 'Noto Sans', sans-serif;
+          text-transform: uppercase;
+          // padding-left: 3%;
+        }
+
+        .status-ok {
+          color: @status-ok
+        }
+
+        .status-no {
+          color: @status-no;
+        }
+
+        ul.countdown {
+          padding-left: 0 !important;
+        }
+
+        .countdown {
+          list-style: none;
+          display: block;
+          margin: 5% auto 0;
+          text-align: center;
+
+          .ct-part {
+            display: inline-block;
+            min-width: 80px;
+
+            font-family: 'Open Sans', sans-serif;
+
+            &.tamed {
+              color: grey;
+            }
+
+            .ct-val {
+              font-size: 2.0rem;
+             // font-weight: bold;
+            }
+
+            .ct-label {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .footer {
+    height: 2%;
+    font-size: 0.7rem;
+    color: grey;
+  }
+}
