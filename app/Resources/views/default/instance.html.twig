@@ -11,3 +11,27 @@
 <!-- endbuild -->
     {% endif %}
 {% endblock %}
+
+{% block javascript_head %}
+    var instanceData = {{ instance | serialize('json') | raw }};
+{% endblock %}
+
+{% block react %}
+{% if app.environment == 'prod' %}
+<!-- prod:app-instance.js -->
+<!-- endbuild -->
+{% else %}
+<!-- dev:app-instance.js -->
+<script src="/compiled_dev/jsx/app-instance.js/app-instance.js"></script>
+<!-- endbuild -->
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="wrap">
+        <div class="main" id="instance">
+            {% block main %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

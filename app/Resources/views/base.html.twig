@@ -14,7 +14,7 @@
 
     <script type="text/javascript">
         var base_url = "{{ app.request.schemeAndHttpHost }}{{ app.environment == 'prod' ? '/' : '/app_dev.php/' }}";
-        {% block javascripts_head %}
+        {% block javascript_head %}
         {% endblock %}
     </script>
 
@@ -31,7 +31,7 @@
 <footer class="footer">
     <div class="container">
         <div class="row">
-            <div class="col-md-6"><p class="text-muted">© 2015 <a href="http://www.funkybits.fr">FunkyBits</a></p></div>
+            <div class="col-md-6"><p>© 2015 <a href="http://www.funkybits.fr">FunkyBits</a></p></div>
             <div class="col-md-6">{#<p class="text-muted pull-right">Sources</p>#}</div>
         </div>
 
@@ -40,13 +40,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 {% block javascripts %}
-    {% if app.environment == 'prod' %}
-        <!-- prod:vendors.js -->
-        <!-- endbuild -->
-    {% else %}
-        <!-- dev:vendors.js -->
-        <!-- endbuild -->
-    {% endif %}
+{% if app.environment == 'prod' %}
+<!-- prod:vendors.js -->
+<!-- endbuild -->
+{% else %}
+<!-- dev:vendors.js -->
+<script src="/compiled_dev/js/vendors.js/autobahn.min_0.js"></script>
+<!-- endbuild -->
+{% endif %}
 {% endblock %}
 
 {% if app.environment == 'prod' %}
@@ -54,8 +55,8 @@
     <!-- endbuild -->
 {% else %}
     <!-- dev:bootstrap.min.js -->
-    <!-- endbuild -->
-
+<script src="/compiled_dev/js/bootstrap.min.js/bootstrap.min_0.js"></script>
+<!-- endbuild -->
 {% endif %}
 
 {% block react %}{% endblock %}

@@ -33,12 +33,15 @@ mimetypes:
         # This is the list of source files to apply the above settings
         files:
             bootstrap.css:
-                - "web/bower_components/bootstrap/less/bootstrap.less"
-                - "web/bower_components/bootstrap/less/theme.less"
-#                - "web/css/less/material/bootswatch.less"
+#                - "web/bower_components/bootstrap/less/bootstrap.less"
+#                - "web/bower_components/bootstrap/less/theme.less"
+                - "web/css/slate/bootswatch.less"
 
             main.css: # This is the output filename
                 - web/css/main.less
+
+            instance.css: # This is the output filename
+                - web/css/instance.less
 
         # Watch these files for changes (optional)
         watch:
@@ -81,8 +84,7 @@ mimetypes:
                 - "web/bower_components/bootstrap/dist/js/bootstrap.min.js"
 
             vendors.js:
-                - "web/js/main.js"
-                - "web/js/spin.min.js"
+                - "web/js/*.js"
 
     jsx:
 #        deps:
@@ -104,11 +106,11 @@ mimetypes:
 #                - { name: "gwatchify"}
 
         files:
-            app-generator.js:
-                - "web/jsx/app-generator.js"
-#
-            app-gallery.js:
-                - "web/jsx/app-gallery.js"
+            app-form.js:
+                - "web/jsx/app-form.js"
+
+            app-instance.js:
+                - "web/jsx/app-instance.js"
 
 #            app-macro.js:
 #                - "web/jsx/app-macro.js"
@@ -119,8 +121,8 @@ mimetypes:
 default:
     - css
     - fonts
-#    - js
-#    - jsx
+    - js
+    - jsx
 
 replacementPaths:
     - "app/Resources/views/**/*.twig"

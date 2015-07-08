@@ -14,4 +14,16 @@ class DefaultController extends Controller
     {
         return $this->render('default/app.html.twig');
     }
+
+    /**
+     * @Route("/i/{key}", name="instance_page")
+     */
+    public function instanceAction($key)
+    {
+        $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneByPublicKey($key);
+
+        return $this->render('default/instance.html.twig', [
+            'instance' => $instance
+        ]);
+    }
 }
