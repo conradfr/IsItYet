@@ -27,7 +27,10 @@
         "snc/redis-bundle": "1.1.*",
         "predis/predis": "^1.0",
         "jms/serializer-bundle": "^0.13.0",
-        "ramsey/uuid": "^2.8"
+        "ramsey/uuid": "^2.8",
+        "cboden/ratchet": "v0.3.3",
+        "predis/predis-async": "dev-master",
+        "stof/doctrine-extensions-bundle": "v1.1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
