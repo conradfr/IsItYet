@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * Instance
@@ -42,9 +43,39 @@ class Instance
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string")
+     * @ORM\Column(name="title", type="string", length=50)
      */
     private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="text_false", type="string", length=25)
+     */
+    private $textFalse = 'No';
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="text_true", type="string", length=25)
+     */
+    private $textTrue = 'Yes';
+
+    /**
+     * @var \DateTime $created
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var \DateTime $updated
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
     /** @ORM\PrePersist */
     public function createUuidOnPrePersist()
@@ -114,5 +145,69 @@ class Instance
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextFalse()
+    {
+        return $this->textFalse;
+    }
+
+    /**
+     * @param string $textFalse
+     */
+    public function setTextFalse($textFalse)
+    {
+        $this->textFalse = $textFalse;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTextTrue()
+    {
+        return $this->textTrue;
+    }
+
+    /**
+     * @param string $textTrue
+     */
+    public function setTextTrue($textTrue)
+    {
+        $this->textTrue = $textTrue;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
     }
 }
