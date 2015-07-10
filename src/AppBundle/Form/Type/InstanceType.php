@@ -17,18 +17,15 @@ class InstanceType extends AbstractType
             ->add('title', 'text', [
                 'error_bubbling' => false
             ])
-            ->add('type', 'choice', [
+            ->add('kindof', 'choice', [
                 'choices'  => ['boolean' => 'boolean', 'countdown' => 'countdown']
             ])
-            ->add('type', 'datetime')
-            ->add('first_state', 'text')
-            ->add('second_state', 'text');
+            ->add('end_at', 'datetime')
+            ->add('text_false', 'text')
+            ->add('text_true', 'text');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             "allow_extra_fields" => true,

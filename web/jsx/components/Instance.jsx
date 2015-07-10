@@ -23,7 +23,7 @@ var Instance = React.createClass({
                 <div className={"status row"}>
                     <div className="row-content">
                         <InstanceStatus status={this.state.status} textFalse={this.state.text_false} textTrue={this.state.text_true} />
-                        {this.state.kind === 'countdown' ? <InstanceCountdown timeLeft={this.state.time_left} /> : ''}
+                        {this.state.kindof === 'countdown' ? <InstanceCountdown timeLeft={this.state.time_left} /> : ''}
                     </div>
                 </div>
             </div>

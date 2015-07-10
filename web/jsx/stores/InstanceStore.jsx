@@ -11,7 +11,7 @@ var InstanceStore = Reflux.createStore({
         if (typeof instanceData !== 'undefined') {
             this.instance = instanceData;
 
-            if (this.instance.kind !== "countdown") {
+            if (this.instance.kindof !== "countdown") {
                 var that = this;
                 //var ws = ab.connect('ws://dev.isityet.funkybits.fr:8080',
                 //    function (session) {

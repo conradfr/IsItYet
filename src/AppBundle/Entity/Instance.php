@@ -12,7 +12,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="kind", type="string")
+ * @ORM\DiscriminatorColumn(name="kindof", type="string")
  * @ORM\HasLifecycleCallbacks
  */
 class Instance
@@ -39,6 +39,13 @@ class Instance
      * @ORM\Column(name="write_key", type="guid")
      */
     private $writeKey;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="kindof", type="string")
+     */
+    private $kindof;
 
     /**
      * @var string
@@ -129,6 +136,22 @@ class Instance
     public function getWriteKey()
     {
         return $this->writeKey;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKindof()
+    {
+        return $this->kindof;
+    }
+
+    /**
+     * @param string $kindof
+     */
+    public function setKindof($kindof)
+    {
+        $this->kindof = $kindof;
     }
 
     /**
