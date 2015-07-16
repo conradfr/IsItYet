@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle;
+namespace AppBundle\Utils;
 
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\WampServerInterface;

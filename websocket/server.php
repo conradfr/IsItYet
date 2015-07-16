@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use AppBundle\Pusher;
+use AppBundle\Utils\Pusher;
 
 $loop = React\EventLoop\Factory::create();
 $pusher = new Pusher();
