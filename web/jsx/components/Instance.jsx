@@ -9,6 +9,7 @@ var InstanceActions = require('../actions/InstanceActions.jsx');
 var InstanceTitle = require('./InstanceTitle.jsx');
 var InstanceStatus = require('./InstanceStatus.jsx');
 var InstanceCountdown = require('./InstanceCountdown.jsx');
+var InstanceFooter = require('./InstanceFooter.jsx');
 
 var Instance = React.createClass({
     mixins: [Reflux.connect(InstanceStore)],
@@ -26,6 +27,7 @@ var Instance = React.createClass({
                         {this.state.type === 'countdown' ? <InstanceCountdown timeLeft={this.state.data.time_left} /> : ''}
                     </div>
                 </div>
+                <InstanceFooter createdBy={this.state.data.createdBy} publicKey={this.state.data.publicKey} />
             </div>
         );
     }

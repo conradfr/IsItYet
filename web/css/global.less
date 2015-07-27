@@ -1,0 +1,66 @@
+@import "slate/variables";
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 40px;
+
+  p {
+    color: @text-muted;
+    margin: 8px 0;
+  }
+
+  a {
+    color: lighten(@text-muted, 2%);
+
+    &:hover,
+    &:focus {
+      color: @text-muted;
+    }
+  }
+
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.instance-footer {
+
+}
+
+h3 {
+  margin: 20px 0 20px;
+}
+
+form {
+  .label-header {
+    margin-bottom: 10px !important;
+  }
+
+  .help-block {
+    font-size: ceil((@font-size-base * 0.85));
+    color: lighten(@text-muted, 5%);
+    margin-top: 10px;
+  }
+
+  .radio {
+    margin-bottom: 35px !important;
+  }
+
+  .spinner-container {
+    float: right !important;
+  }
+}

@@ -106,11 +106,11 @@ mimetypes:
 #                - { name: "gwatchify"}
 
         files:
-            app-form.js:
-                - "web/jsx/app-form.js"
+#            app-form.js:
+#                - "web/jsx/app-form.js"
 
-#            app-instance.js:
-#                - "web/jsx/app-instance.js"
+            app-instance.js:
+                - "web/jsx/app-instance.js"
 
 #            app-macro.js:
 #                - "web/jsx/app-macro.js"
