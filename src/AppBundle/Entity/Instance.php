@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,11 +13,14 @@ use Gedmo\Mapping\Annotation as Gedmo;
  *
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="kindof", type="string")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\HasLifecycleCallbacks
  */
 class Instance
 {
+    const TYPE_BOOLEAN = 'boolean';
+    const TYPE_COUNTDOWN = 'countdown';
+
     /**
      * @var integer
      *
@@ -29,6 +33,7 @@ class Instance
     /**
      * @var string
      *
+     * @Gedmo\Slug(fields={"id", "title"}, unique=true, updatable=false)
      * @ORM\Column(name="public_key", type="string")
      */
     private $publicKey;
@@ -43,21 +48,27 @@ class Instance
     /**
      * @var string
      *
-     * @ORM\Column(name="kindof", type="string")
-     */
-    private $kindof;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="title", type="string", length=50)
+     * @Assert\NotBlank(message="A title is mandatory.")
      */
     private $title;
 
     /**
      * @var string
      *
+     * @ORM\Column(name="created_by", type="string", length=25, nullable=true)
+     * @Assert\Length(
+     *      max = 25,
+     *      maxMessage = "Your name is too long ({{ limit }} characters max }})"
+     * )
+     */
+    private $createdBy;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="text_false", type="string", length=25)
+     * @Assert\NotBlank(message="A status text is mandatory.")
      */
     private $textFalse = 'No';
 
@@ -65,6 +76,7 @@ class Instance
      * @var string
      *
      * @ORM\Column(name="text_true", type="string", length=25)
+     * @Assert\NotBlank(message="A status text is mandatory.")
      */
     private $textTrue = 'Yes';
 
@@ -139,22 +151,6 @@ class Instance
     }
 
     /**
-     * @return string
-     */
-    public function getKindof()
-    {
-        return $this->kindof;
-    }
-
-    /**
-     * @param string $kindof
-     */
-    public function setKindof($kindof)
-    {
-        $this->kindof = $kindof;
-    }
-
-    /**
      * @param string $title
      */
     public function setTitle($title)
@@ -173,6 +169,22 @@ class Instance
     /**
      * @return string
      */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param string $createdBy
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
+
+    /**
+     * @return string
+     */
     public function getTextFalse()
     {
         return $this->textFalse;
@@ -183,6 +195,7 @@ class Instance
      */
     public function setTextFalse($textFalse)
     {
+        if (empty($textFalse)) { return; } // prevent form to overwrite with a null value so we can keep the default value
         $this->textFalse = $textFalse;
     }
 
@@ -199,6 +212,7 @@ class Instance
      */
     public function setTextTrue($textTrue)
     {
+        if (empty($textTrue)) { return; } // prevent form to overwrite with a null value so we can keep the default value
         $this->textTrue = $textTrue;
     }
 

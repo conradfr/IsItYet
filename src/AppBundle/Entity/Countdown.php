@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Countdown instance
@@ -15,6 +16,7 @@ class Countdown extends Instance
      * @var \DateTime
      *
      * @ORM\Column(name="end_at", type="datetimetz")
+     * @Assert\DateTime()
      */
     private $endAt;
 
@@ -23,7 +25,7 @@ class Countdown extends Instance
      *
      * @ORM\Column(name="use_timezone", type="boolean")
      */
-    private $useTimezone;
+    private $useTimezone = false;
 
     /**
      * @param \DateTime $endAt
