@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block javascript_head %}
+    var ws_url = "ws://{{ app.request.httpHost }}:{{ ws_port }}";
     var instanceData = {{ instance | serialize('json') | raw }};
 {% endblock %}
 
