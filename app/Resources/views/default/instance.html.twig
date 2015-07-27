@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    {{ instance.data.title }} - {{ parent() }}
+{% endblock %}
+
 {% block meta %}
     <meta property="og:url" content="{{ path('instance_view', {'key': instance.data.publicKey}) }}"/>
     <meta property="og:title" content="{{ instance.data.title }}"/>
