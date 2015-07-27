@@ -8,7 +8,7 @@ var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 
 var InstanceFormChoice = React.createClass({
     componentDidMount: function() {
-        // React.findDOMNode(this.refs.kindof).focus();
+        // React.findDOMNode(this.refs.type).focus();
     },
     getInitialState: function () {
         return InstanceFormStore.getInitialState();
@@ -16,7 +16,7 @@ var InstanceFormChoice = React.createClass({
     onChange: function(e) {
         this.setState({
             data: {
-                kindof: e.currentTarget.value
+                type: e.currentTarget.value
             }
         });
     },
@@ -28,36 +28,30 @@ var InstanceFormChoice = React.createClass({
                 step: 1
             },
             data: {
-                kindof: this.state.data.kindof
+                type: this.state.data.type
             }
         });
     },
     render: function() {
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-6">
-                        <h3>Create Instance</h3>
-                    </div>
-                </div>
                 <form onSubmit={this.onSubmit}>
                 <div className="row">
                     <div className="col-md-6">
-                        <label className="label-header">Choose a type of instance</label>
+                        <label className="label-header">Choose a type of page</label>
                         <div className="radio">
                             <label>
-                                <input type="radio" name="kindof" ref="kindof" className="optionsRadios" onChange={this.onChange}
-                                       value="boolean" checked={this.state.data.kindof === 'boolean'} />
+                                <input type="radio" name="type" ref="type" className="optionsRadios" onChange={this.onChange}
+                                       value="boolean" checked={this.state.data.type === 'boolean'} />
                                 Boolean
                             </label>
                             <span className="help-block">
-                                This type of instance has two status (e.g Yes/No) that you toggle when you want and update in real time to anyone watching your page.
+                                This type of page has two status (e.g Yes/No) that you toggle when you want and update in real time to anyone watching it.
                             </span>
                         </div>
                         <div className="radio">
                             <label>
-                                <input type="radio" name="kindof" ref="kindof" className="optionsRadios" onChange={this.onChange}
-                                       value="countdown" checked={this.state.data.kindof === 'countdown'} />
+                                <input type="radio" name="type" ref="type" className="optionsRadios" onChange={this.onChange}
+                                       value="countdown" checked={this.state.data.type === 'countdown'} />
                                 Countdown
                             </label>
                             <span className="help-block">
@@ -72,7 +66,6 @@ var InstanceFormChoice = React.createClass({
                     </div>
                 </div>
                 </form>
-            </div>
         );
     }
 });

@@ -1,0 +1,8 @@
+services:
+#    doctrine.instance_listener:
+#        class: AppBundle\EventListener\InstanceListener
+#        tags:
+#            - { name: doctrine.event_listener, event: prePersist }
+
+    form_serializer:
+        class:        AppBundle\Utils\FormErrorsSerializer

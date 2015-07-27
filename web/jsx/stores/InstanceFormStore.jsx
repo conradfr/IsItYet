@@ -1,16 +1,19 @@
 'use strict';
 
+var React = require('react/addons');
 var Reflux = require('reflux');
 var extend = require("xtend");
 
 var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
+var InstanceMixin = require('./InstanceMixin.jsx');
 
 var InstanceFormStore = Reflux.createStore({
+    mixins: [InstanceMixin],
     listenables: InstanceFormActions,
     init: function(){
         this.instance = {
             data: {
-                kindof: 'boolean'
+                type: 'boolean'
             },
             meta: {
                 public_key: null,
@@ -25,7 +28,7 @@ var InstanceFormStore = Reflux.createStore({
                 loading: false,
                 deleted: false,
                 error: false,
-                errorText: null
+                errors: {}
             }
         }
     },
@@ -33,15 +36,23 @@ var InstanceFormStore = Reflux.createStore({
         return this.instance;
     },
     stepSubmitted: function(formData){
-        this.instance = extend(this.instance, formData);
-        this.instance.status.step++;
-        this.trigger(this.instance);
+        formData.status.step++;
+        this.updateInstance(formData);
+    },
+    onInputUpdated: function(inputName, value) {
+        this.instance.data[inputName] = value;
     },
     onInstanceSubmitted: function () {
-        this.instance.status.error = false;
-        this.instance.status.errorText = null;
-        this.instance.status.loading = true;
-        this.trigger(this.instance);
+        var newData = {
+            status: {
+                error : false,
+                errors: {},
+                loading : true
+            }
+        };
+        this.updateInstance(newData);
+
+        // var dataToSend = deepCopy(this.instance.data);
 
         $.post(base_url + 'instance', this.instance.data)
             .done(function (data, status, headers) {
@@ -59,14 +70,13 @@ var InstanceFormStore = Reflux.createStore({
         if (data.status.error === true) {
             this.onInstanceSubmittedFailed(data);
         } else {
-            this.instance = React.addons.update(this.instance, {$merge: data});
-            this.trigger(this.instance);
+            this.updateInstance(data);
         }
     },
     onInstanceSubmittedFailed: function (data) {
         var error = {
             error: true,
-            errorText: data.responseJSON.status.errorText || data.status.errorText || "An error occurred; please try again later."
+            errors: data.responseJSON.status.errors || data.status.errors || {}
         };
 
         this.instance.status = React.addons.update(this.instance.status, {$merge: error});
