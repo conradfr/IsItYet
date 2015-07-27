@@ -13,6 +13,7 @@ class Builder extends ContainerAware
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav navbar-nav'); // bootstrap
 
+        $menu->addChild('Home', array('route' => 'home'));
         $menu->addChild('Create', array('route' => 'app'));
 
         return $menu;

@@ -1,5 +1,29 @@
-{% extends 'base.html.twig' %}
+{% extends 'site.html.twig' %}
 
 {% block body %}
-    Homepage.
+{{ parent() }}
+<div class="jumbotron">
+    <div class="container">
+        <h1>Is It ... Yet ?</h1>
+        <p>Create a page with a simple status which update to anyone browsing it in real-time or with a countdown.</p>
+        <p><a class="btn btn-primary" href="{{ path('app') }}" role="button">Create your page &raquo;</a></p>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Boolean example</h2>
+            <p>Check the example of a page with a boolean status.</p>
+            <p><a class="btn btn-default" href="#" role="button">Boolean page &raquo;</a></p>
+            <p><a class="btn btn-default" href="#" role="button">Edit its status&raquo;</a></p>
+        </div>
+        <div class="col-md-6">
+            <h2>Countdown example</h2>
+            <p>Check the example of a page with a countdown.</p>
+            <p><a class="btn btn-default" href="#" role="button">Countdown page &raquo;</a></p>
+        </div>
+    </div>
+</div>
 {% endblock %}
