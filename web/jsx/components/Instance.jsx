@@ -17,13 +17,13 @@ var Instance = React.createClass({
             <div className="instance-wrap">
                 <div className={"title row"}>
                     <div className="row-content">
-                        <InstanceTitle title={this.state.title} />
+                        <InstanceTitle title={this.state.data.title} />
                     </div>
                 </div>
                 <div className={"status row"}>
                     <div className="row-content">
-                        <InstanceStatus status={this.state.status} textFalse={this.state.text_false} textTrue={this.state.text_true} />
-                        {this.state.kindof === 'countdown' ? <InstanceCountdown timeLeft={this.state.time_left} /> : ''}
+                        <InstanceStatus status={this.state.data.status} textFalse={this.state.data.textFalse} textTrue={this.state.data.textTrue} />
+                        {this.state.type === 'countdown' ? <InstanceCountdown timeLeft={this.state.data.time_left} /> : ''}
                     </div>
                 </div>
             </div>

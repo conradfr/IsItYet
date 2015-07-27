@@ -1,35 +1,41 @@
 'use strict';
 
+var React = require('react/addons');
 var Reflux = require('reflux');
 var extend = require("xtend");
 
 var InstanceActions = require('../actions/InstanceActions.jsx');
+var InstanceMixin = require('./InstanceMixin.jsx');
 
 var InstanceStore = Reflux.createStore({
+    mixins: [InstanceMixin],
     init: function() {
         // initial data
         if (typeof instanceData !== 'undefined') {
             this.instance = instanceData;
 
-            if (this.instance.kindof !== "countdown") {
+            if (this.instance.data.type !== "countdown") {
                 var that = this;
-                //var ws = ab.connect('ws://dev.isityet.funkybits.fr:8080',
-                //    function (session) {
-                //        session.subscribe(that.instance.id, function(topic, data) {
-                //            var jsonData = JSON.parse(data);
-                //            if (typeof jsonData.instance !== 'undefined') {
-                //                that.updateInstance(jsonData.instance);
-                //            }
-                //        });
-                //    },
-                //    function (code, reason, detail) { },
-                //    {
-                //        'skipSubprotocolCheck': true
-                //    }
-                //);
+                var ws = ab.connect(ws_url,
+                    function (session) {
+                        session.subscribe(that.instance.data.publicKey, function(topic, data) {
+                            console.log(data);
+                            var jsonData = JSON.parse(data);
+                            console.log(jsonData);
+                            //if (typeof jsonData.instance !== 'undefined') {
+                                that.updateInstance(jsonData);
+                                console.log(that.instance);
+                            //}
+                        });
+                    },
+                    function (code, reason, detail) { },
+                    {
+                        'skipSubprotocolCheck': true
+                    }
+                );
             } else {
-                this.instance.status = false;
-                this.instance.time_left = 0;
+                this.instance.data.status = false;
+                this.instance.data.time_left = 0;
 
                 this.tick();
                 this.timer = setInterval(this.tick, 1000);
@@ -41,7 +47,7 @@ var InstanceStore = Reflux.createStore({
     },
     tick: function() {
         var newData = {
-            time_left: new Date(this.instance.end_at) - new Date(),
+            time_left: new Date(this.instance.data.endAt) - new Date(),
             status: false
         };
 
@@ -51,7 +57,7 @@ var InstanceStore = Reflux.createStore({
             newData.status = true;
         }
 
-        this.instance = extend(this.instance, newData);
+        this.instance.data = extend(this.instance.data, newData);
         this.trigger(this.instance);
     }
 });
