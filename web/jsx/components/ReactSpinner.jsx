@@ -24,14 +24,14 @@ var ReactSpinner = React.createClass({
         };
         this.spinner = new Spinner(opts);
         this.spinner.spin(React.findDOMNode(this));
-        if (this.props.loading === false) {
+        if ((this.props.loading === false) || (this.props.loading !== this.props.text)) {
             this.spinner.stop();
         }
     },
     componentWillReceiveProps: function (newProps) {
         if (newProps.loading === false && this.props.loading) {
             this.spinner.stop();
-        } else if (newProps.loading && !this.props.loading) {
+        } else if (newProps.loading === this.props.text && !this.props.loading) {
             this.spinner.spin(React.findDOMNode(this));
         }
     },
@@ -40,7 +40,7 @@ var ReactSpinner = React.createClass({
     },
     render: function () {
         return (
-            <div className="spinner-container">&nbsp;</div>
+            <div className="spinner-container"></div>
         );
     }
 });
