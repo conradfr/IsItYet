@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react/addons');
+
 var InstanceMixin = {
     updateInstance: function(newData) {
         if (typeof newData.data !== 'undefined') {

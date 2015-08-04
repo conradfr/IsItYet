@@ -1,55 +1,64 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var Reflux = require('reflux');
+
+var ReactSpinner = require('./ReactSpinner.jsx');
 
 var InstanceFormStore = require('../stores/InstanceFormStore.jsx');
 var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 
 var InstanceFormToggle = React.createClass({
     mixins: [Reflux.connect(InstanceFormStore)],
-    onToggle: function(e) {
+    onChange: function(e) {
+        var newState = this.state;
+        newState.data.status = e.currentTarget.value === 'true';
+        this.setState(newState);
+    },
+    onSubmit: function(e) {
         e.preventDefault();
-
+        InstanceFormActions.statusSubmitted(this.state.data.status);
     },
     render: function() {
-        var cx = React.addons.classSet;
-
-        var clFalse = cx({
-            'btn': true,
-            'btn-danger': !this.state.data.status,
-            'active': !this.state.data.status,
-            'btn-default': this.state.data.status
-        });
-
-        var clTrue = cx({
-            'btn': true,
-            'btn-success': this.state.data.status,
-            'active': !this.state.data.status,
-            'btn-default': !this.state.data.status
-        });
-
         return (
-            <div className="row">
-                <div className="col-md-12">
-                    <h4>Toggle the status</h4>
-                    <div className="alert alert-info" role="alert">
-                        Once clicked the status is instantaneously broadcast to anyone watching your page.
-                    </div>
-                    <div className="row">
-                        <div className="col-md-4 col-md-offset-4">
-                            <div className="btn-group btn-group-justified" role="group" aria-label="toggle">
-                                <div className="btn-group" role="group">
-                                    <button type="button" className={clFalse}>{ this.state.data.textFalse }</button>
+            <form onSubmit={this.onSubmit}>
+                <div className="row">
+                    <div className="col-md-12">
+                        <fieldset>
+                            <legend>Status</legend>
+                            <div className="well">
+                                <div className="radio radio-status">
+                                    <label>
+                                        <input type="radio" name="status" ref="status" onChange={this.onChange}
+                                               value={false} checked={this.state.data.status === false} />
+                                        { this.state.data.textFalse }
+                                    </label>
                                 </div>
-                                <div className="btn-group" role="group">
-                                    <button type="button" className={clTrue}>{ this.state.data.textTrue }</button>
+                                <div className="radio radio-status">
+                                    <label>
+                                        <input type="radio" name="status" ref="status" onChange={this.onChange}
+                                               value={true} checked={this.state.data.status === true} />
+                                        { this.state.data.textTrue }
+                                    </label>
                                 </div>
                             </div>
-                        </div>
+                        </fieldset>
                     </div>
                 </div>
-            </div>
+                { this.state.status.errors.formStatus ?
+                    <div className="row">
+                        <div className="col-md-12">
+                            <div className="alert alert-danger" role="alert">{this.state.status.errors.formStatus}</div>
+                        </div>
+                    </div>
+                    : '' }
+                <div className="row">
+                    <div className="col-md-offset-10 col-md-2 col-xs-12">
+                        <ReactSpinner text="status" loading={this.state.status.isLoading}/>
+                        <button type="submit" ref="submit" className="btn btn-info pull-right">Update</button>
+                    </div>
+                </div>
+            </form>
         );
     }
 });

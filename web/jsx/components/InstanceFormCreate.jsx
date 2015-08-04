@@ -9,10 +9,17 @@ var InstanceFormChoice = require('./InstanceFormChoice.jsx');
 var InstanceFormSetup = require('./InstanceFormSetup.jsx');
 
 var InstanceFormCreate = React.createClass({
-    mixins: [Reflux.connect(InstanceFormStore)],
+    mixins: [Reflux.connectFilter(InstanceFormStore, "isTypeChosen", function(instance) {
+            return instance.status.isTypeChosen;
+        }
+    )],
     render: function() {
         return (
-            (this.state.status.step) === 1 ? <InstanceFormChoice /> : <InstanceFormSetup />
+            <div className="row" >
+                <div className="col-md-6">
+                    { this.state.isTypeChosen === true ? <InstanceFormSetup /> : <InstanceFormChoice /> }
+                </div>
+            </div>
         );
     }
 });

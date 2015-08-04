@@ -24,7 +24,7 @@ var Instance = React.createClass({
                 <div className={"status row"}>
                     <div className="row-content">
                         <InstanceStatus status={this.state.data.status} textFalse={this.state.data.textFalse} textTrue={this.state.data.textTrue} />
-                        {this.state.type === 'countdown' ? <InstanceCountdown timeLeft={this.state.data.time_left} /> : ''}
+                        {this.state.data.type === 'countdown' ? <InstanceCountdown timeLeft={this.state.data.time_left} /> : ''}
                     </div>
                 </div>
                 <InstanceFooter createdBy={this.state.data.createdBy} publicKey={this.state.data.publicKey} />

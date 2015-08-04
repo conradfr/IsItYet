@@ -35,7 +35,7 @@ mimetypes:
             bootstrap.css:
 #                - "web/bower_components/bootstrap/less/bootstrap.less"
 #                - "web/bower_components/bootstrap/less/theme.less"
-                - "web/css/slate/bootswatch.less"
+                - "web/css/darkly/bootswatch.less"
 
             main.css: # This is the output filename
                 - web/css/main.less
@@ -106,14 +106,11 @@ mimetypes:
 #                - { name: "gwatchify"}
 
         files:
-#            app-form.js:
-#                - "web/jsx/app-form.js"
+            app-form.js:
+                - "web/jsx/app-form.js"
 
             app-instance.js:
                 - "web/jsx/app-instance.js"
-
-#            app-macro.js:
-#                - "web/jsx/app-macro.js"
 
         watch:
             - web/jsx/**/*.js*

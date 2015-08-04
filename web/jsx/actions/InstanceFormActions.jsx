@@ -3,9 +3,10 @@
 var Reflux = require('reflux');
 
 var InstanceFormActions = Reflux.createActions({
-    "stepSubmitted": {asyncResult: false},
+    "typeSubmitted": {asyncResult: false},
     "inputUpdated": {asyncResult: false},
-    "instanceSubmitted": {asyncResult: true}
+    "instanceSubmitted": {asyncResult: true},
+    "statusSubmitted": {asyncResult: true}
 });
 
 module.exports = InstanceFormActions;

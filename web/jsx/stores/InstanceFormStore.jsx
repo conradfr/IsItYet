@@ -2,7 +2,6 @@
 
 var React = require('react/addons');
 var Reflux = require('reflux');
-var extend = require("xtend");
 
 var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 var InstanceMixin = require('./InstanceMixin.jsx');
@@ -15,46 +14,81 @@ var InstanceFormStore = Reflux.createStore({
             data: {
                 type: 'boolean'
             },
-            meta: {
-                public_key: null,
-                write_key: null,
-                editLink: null,
-                pageLink: null,
-                deleteLink: null
-            },
             status: {
-                step: 1,
-                created: false,
-                loading: false,
-                deleted: false,
-                error: false,
-                errors: {}
+                isTypeChosen: false,
+                isStatusUpdated: false,
+                isCreated: false,
+                isLoading: false,
+                isDeleted: false,
+                hasErrors: false,
+                errors: {},
+                ajaxSuccess: null
             }
+        };
+
+        if (typeof instanceData !== 'undefined') {
+            this.updateInstance(instanceData);
         }
+
+        window.onpopstate = function(event) {
+            console.log(this.state);
+            this.instance = event.state;
+            this.trigger(this.instance);
+        }.bind(this);
     },
     getInitialState: function () {
         return this.instance;
     },
-    stepSubmitted: function(formData){
-        formData.status.step++;
-        this.updateInstance(formData);
+    onTypeSubmitted: function(type){
+        window.history.pushState(this.instance,'');
+        this.instance.data.type = type;
+        this.instance.status.isTypeChosen = true;
+        window.history.pushState(this.instance,'');
+        this.trigger(this.instance);
     },
     onInputUpdated: function(inputName, value) {
         this.instance.data[inputName] = value;
     },
-    onInstanceSubmitted: function () {
+    onStatusSubmitted: function (newStatus) {
         var newData = {
+            data: {
+                status: newStatus
+            },
             status: {
-                error : false,
+                hasErrors : false,
                 errors: {},
-                loading : true
+                isLoading : "status",
+                ajaxSuccess: null
             }
         };
         this.updateInstance(newData);
 
-        // var dataToSend = deepCopy(this.instance.data);
+        $.post(base_url + 'instance/status/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey, '{"status": ' + this.instance.data.status + '}')
+            .done(function (data, status, headers) {
+                InstanceFormActions.instanceSubmitted.completed(data);
+            })
+            .fail(function (data, status, headers) {
+                InstanceFormActions.instanceSubmitted.failed(data, 'formStatus');
+            })
+            .always(function () {
+                this.instance.status.isLoading = false;
+                this.trigger(this.instance);
+            }.bind(this));
+    },
+    onInstanceSubmitted: function () {
+        var newData = {
+            status: {
+                hasErrors : false,
+                errors: {},
+                isLoading : "form",
+                ajaxSuccess: null
+            }
+        };
+        this.updateInstance(newData);
 
-        $.post(base_url + 'instance', this.instance.data)
+        var url = this.instance.status.isCreated === true ? '/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey : '';
+
+        $.post(base_url + 'instance' + url, this.instance.data)
             .done(function (data, status, headers) {
                 InstanceFormActions.instanceSubmitted.completed(data);
             })
@@ -62,21 +96,51 @@ var InstanceFormStore = Reflux.createStore({
                 InstanceFormActions.instanceSubmitted.failed(data);
             })
             .always(function () {
-                this.instance.status.loading = false;
+                this.instance.status.isLoading = false;
                 this.trigger(this.instance);
             }.bind(this));
     },
-    onInstanceSubmittedCompleted: function (data) {
-        if (data.status.error === true) {
+    onInstanceSubmittedCompleted: function (data, name) {
+        if (name === undefined) {
+            name = 'form';
+        }
+
+        if ((typeof data.status.hasErrors !== 'undefined') && (data.status.hasErrors === true)) {
             this.onInstanceSubmittedFailed(data);
         } else {
+            var formerIsCreated = this.instance.status.isCreated;
+
             this.updateInstance(data);
+
+            // Newly created instance ?
+            if ((name === 'form') && (formerIsCreated === false) && (this.instance.status.isCreated === true)) {
+                this.instance.status.ajaxSuccess = 'created';
+                window.history.pushState(this.instance,'', base_url + 'instance/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey);
+            }
+            // Instance update ?
+            else if ((name === 'form') && (formerIsCreated === true)) {
+                this.instance.status.ajaxSuccess = 'updated';
+            }
+            // Status update ?
+            else if (name === 'status') {
+                this.instance.status.ajaxSuccess = 'status';
+            }
+
+            this.trigger(this.instance);
         }
     },
-    onInstanceSubmittedFailed: function (data) {
+    onInstanceSubmittedFailed: function (data, name) {
+        if (name === undefined) {
+            name = 'form';
+        }
+
+        // Used if no error transmitted
+        var errorObject = new Object;
+        errorObject[name] = "An error occurred, please try again later.";
+
         var error = {
-            error: true,
-            errors: data.responseJSON.status.errors || data.status.errors || {}
+            hasErrors: true,
+            errors: data.responseJSON.status.errors || data.status.errors || errorObject
         };
 
         this.instance.status = React.addons.update(this.instance.status, {$merge: error});
