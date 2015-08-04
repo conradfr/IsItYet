@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block meta %}
-    <meta property="og:url" content="{{ path('instance_view', {'key': instance.data.publicKey}) }}"/>
+    <meta property="og:url" content="{{ path('instance_view', {'publicKey': instance.data.publicKey}) }}"/>
     <meta property="og:title" content="{{ instance.data.title }}"/>
     <meta property="og:description" content="Powered by IsItYet"/>
     {#<meta property="og:image" content="{{ cdn ~ macro.id ~ '.png' }}"/>#}
