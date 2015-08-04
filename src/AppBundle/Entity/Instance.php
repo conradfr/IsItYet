@@ -75,7 +75,7 @@ class Instance
      * @ORM\Column(name="text_false", type="string", length=25)
      * @Assert\NotBlank(message="A status text is mandatory.")
      */
-    private $textFalse = 'N0';
+    private $textFalse = 'NO';
 
     /**
      * @var string
