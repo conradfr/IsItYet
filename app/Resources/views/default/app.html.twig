@@ -1,5 +1,11 @@
 {% extends 'site.html.twig' %}
 
+{% block javascript_head %}
+    {% if instance is defined %}
+        var instanceData = {{ instance | serialize('json') | raw }};
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     {{ parent() }}
 
@@ -12,7 +18,7 @@
 <!-- endbuild -->
 {% else %}
 <!-- dev:app-form.js -->
-<script src="/compiled_dev/jsx/app-form.js/app-instance.js"></script>
+<script src="/compiled_dev/jsx/app-form.js/app-form.js"></script>
 <!-- endbuild -->
 {% endif %}
 {% endblock %}
