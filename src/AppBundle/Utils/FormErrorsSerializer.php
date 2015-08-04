@@ -13,22 +13,20 @@ class FormErrorsSerializer {
     public function serializeFormErrors(FormInterface $form, $flat_array = false, $add_form_name = false, $glue_keys = '_')
     {
         $errors = array();
-        $errors['global'] = array();
         $errors['fields'] = array();
 
-        foreach ($form->getErrors() as $error) {
-            $errors['global'][] = $error->getMessage();
-        }
-
         $errors['fields'] = $this->serialize($form);
+
+        foreach ($form->getErrors() as $error) {
+            $errors['fields']['form'] = $error->getMessage();
+        }
 
         if ($flat_array) {
             $errors['fields'] = $this->arrayFlatten($errors['fields'],
                 $glue_keys, (($add_form_name) ? $form->getName() : ''));
         }
 
-
-        return $errors;
+        return $errors['fields'];
     }
 
     private function serialize(FormInterface $form)
