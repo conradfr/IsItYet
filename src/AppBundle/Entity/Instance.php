@@ -4,14 +4,17 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Rhumsaa\Uuid\Uuid;
 use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
 use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Instance
  *
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\InstanceRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\HasLifecycleCallbacks
@@ -24,6 +27,7 @@ class Instance
     /**
      * @var integer
      *
+     * @Exclude
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -33,7 +37,7 @@ class Instance
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"id", "title"}, unique=true, updatable=false)
+     * @Gedmo\Slug(fields={"title", "id"}, unique=true, updatable=false)
      * @ORM\Column(name="public_key", type="string")
      */
     private $publicKey;
@@ -41,6 +45,7 @@ class Instance
     /**
      * @var string
      *
+     * @Exclude
      * @ORM\Column(name="write_key", type="guid")
      */
     private $writeKey;
@@ -70,7 +75,7 @@ class Instance
      * @ORM\Column(name="text_false", type="string", length=25)
      * @Assert\NotBlank(message="A status text is mandatory.")
      */
-    private $textFalse = 'No';
+    private $textFalse = 'N0';
 
     /**
      * @var string
@@ -78,7 +83,7 @@ class Instance
      * @ORM\Column(name="text_true", type="string", length=25)
      * @Assert\NotBlank(message="A status text is mandatory.")
      */
-    private $textTrue = 'Yes';
+    private $textTrue = 'YES';
 
     /**
      * @var \DateTime $created
@@ -105,6 +110,28 @@ class Instance
             $this->writeKey = $uuid4->toString();
         } catch (UnsatisfiedDependencyException $e) {
             echo 'Caught exception: ' . $e->getMessage() . "\n";
+        }
+    }
+
+    /**
+     * Instance can't be edited after 15 minutes of existence
+     * @Assert\Callback
+     */
+    public function validate(ExecutionContextInterface $context)
+    {
+        // Execute only if already an instance
+        if ($this->createdAt instanceof \DateTime) {
+            $diffDate = $this->createdAt->diff(new \DateTime());
+
+            $minutes = $diffDate->days * 24 * 60;
+            $minutes += $diffDate->h * 60;
+            $minutes += $diffDate->i;
+
+            if ($minutes > 15) {
+                $context->buildViolation("Settings can't be edited after 15 minutes.")
+                    // ->atPath('firstName')
+                    ->addViolation();
+            }
         }
     }
 
