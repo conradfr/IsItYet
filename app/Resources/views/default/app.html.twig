@@ -9,6 +9,10 @@
 {% block body %}
     {{ parent() }}
 
+    {% if instance is defined %}
+        {% include ":mixins:sharing.html.twig" %}
+    {% endif %}
+
     <div id="instance-form"></div>
 {% endblock %}
 
