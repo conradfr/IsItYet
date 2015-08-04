@@ -1,8 +1,15 @@
 'use strict';
 
 var React = require('react');
+var Reflux = require('reflux');
+
+var InstanceFormStore = require('../stores/InstanceFormStore.jsx');
 
 var ReactSpinner = React.createClass({
+    mixins: [Reflux.connectFilter(InstanceFormStore, "isLoading", function(instance) {
+            return instance.status.isLoading;
+        }
+    )],
     componentDidMount: function () {
         var opts = {
             lines: 7, // The number of lines to draw
@@ -20,18 +27,18 @@ var ReactSpinner = React.createClass({
             className: 'spinner', // The CSS class to assign to the spinner
             zIndex: 2e9, // The z-index (defaults to 2000000000)
             top: '54%', // Top position relative to parent
-            left: '90px' // Left position relative to parent
+            left: '75px' // Left position relative to parent
         };
         this.spinner = new Spinner(opts);
         this.spinner.spin(React.findDOMNode(this));
-        if ((this.props.loading === false) || (this.props.loading !== this.props.text)) {
+        if ((this.state.isLoading === false) || (this.state.isLoading !== this.props.text)) {
             this.spinner.stop();
         }
     },
-    componentWillReceiveProps: function (newProps) {
-        if (newProps.loading === false && this.props.loading) {
+    componentWillUpdate: function(newProps, newState) {
+        if (newState.isLoading === false && this.state.isLoading === this.props.text) {
             this.spinner.stop();
-        } else if (newProps.loading === this.props.text && !this.props.loading) {
+        } else if (newState.isLoading === this.props.text && !this.state.isLoading) {
             this.spinner.spin(React.findDOMNode(this));
         }
     },
