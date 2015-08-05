@@ -96,6 +96,28 @@ body {
           }
         }
 
+        /* Status' animation */
+
+        .instance-status-enter {
+          opacity: 0.01;
+        }
+
+        .instance-status-enter.instance-status-enter-active {
+          opacity: 1;
+          transition: opacity .05s ease-in;
+        }
+
+        .instance-status-leave {
+          opacity: 1;
+        }
+
+        .instance-status-leave.instance-status-leave-active {
+          opacity: 0.01;
+          transition: opacity .01s step-end;
+        }
+
+        /* --- */
+
         ul.countdown {
           padding-left: 0 !important;
         }

@@ -2,6 +2,8 @@
 
 var React = require('react/addons');
 
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 var InstanceStatus = React.createClass({
     text: function() {
         return this.props.status === true ? this.props.textTrue : this.props.textFalse;
@@ -13,7 +15,13 @@ var InstanceStatus = React.createClass({
             'status-no': !this.props.status
         });
         return (
-            <div className={classes}>{this.text()}</div>
+            <div>
+                <ReactCSSTransitionGroup transitionName="instance-status">
+                    <span key={this.text()} className={classes}>
+                        { this.text() }
+                    </span>
+                </ReactCSSTransitionGroup>
+            </div>
         );
     }
 });
