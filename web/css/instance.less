@@ -2,7 +2,7 @@
 
 @import "../bower_components/bootstrap/less/normalize";
 @import "../bower_components/bootstrap/less/variables";
-@import "slate/variables";
+@import "darkly/variables";
 
 /* colors */
 @background-color: black;
@@ -71,10 +71,10 @@ body {
 
       .status {
 
-        .status-ok, .status-no {
+        .status-ok, .status-no, .status-deleted {
           font-size: 3.2rem;
           font-family: 'Noto Sans', sans-serif;
-          text-transform: uppercase;
+          //text-transform: uppercase;
           // padding-left: 3%;
         }
 
@@ -82,8 +82,18 @@ body {
           color: @status-ok
         }
 
-        .status-no {
+        .status-no, .status-deleted {
           color: @status-no;
+        }
+
+        .status-deleted {
+          div {
+            margin: 0 auto;
+          }
+          font-size: 2.8rem;
+          small {
+            font-size: 1rem;
+          }
         }
 
         ul.countdown {

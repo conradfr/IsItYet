@@ -21,7 +21,7 @@ class DefaultController extends Controller
      * @Route("/instance/{publicKey}/{writeKey}", name="app", defaults={"publicKey"="", "writeKey"=""})
      * @Method({"GET"})
      */
-    public function appAction($publicKey, $writeKey)
+    public function appAction($publicKey, $writeKey, Request $request)
     {
         $responseData = [];
 
@@ -33,6 +33,7 @@ class DefaultController extends Controller
             $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
 
             if (!$instance) {
+                $this->addToSpam($request);
                 throw $this->createNotFoundException('The requested instance has not been found.');
             }
 
@@ -51,6 +52,7 @@ class DefaultController extends Controller
         $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneByPublicKey($publicKey);
 
         if (!$instance) {
+            $this->addToSpam($request);
             throw $this->createNotFoundException('The requested instance has not been found.');
         }
 
@@ -150,6 +152,7 @@ class DefaultController extends Controller
 
         $baseInstance = $doctrine->getRepository('AppBundle:Instance')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
         if (!$baseInstance) {
+            $this->addToSpam($request);
             throw $this->createNotFoundException('The requested instance has not been found.');
         }
 
@@ -172,23 +175,12 @@ class DefaultController extends Controller
 
             // Construct response
             $responseData = $this->getDoctrine()->getRepository('AppBundle:Instance')->getExportableInstance($instance);
-            /*            $responseData = [
-                            'data' => [
-                                'title' => $instance->getTitle(),
-                                'textFalse' => $instance->getTextFalse(),
-                                'textTrue' => $instance->getTextTrue(),
-                            ],
-                            'meta' => [
-                                'publicKey' => $instance->getPublicKey(),
-                                'writeKey' => $instance->getWriteKey(),
-                                'editLink' => $this->generateUrl('app', ['publicKey' => $instance->getPublicKey(), 'writeKey' => $instance->getWriteKey()], true)
-                            ],
-                            'status' => [
-                                'created' => true,
-                                'error' => false,
-                                'deleted' => false
-                            ]
-                        ];*/
+
+            $serializer = $this->get('jms_serializer');
+
+            /** @var \Predis\Client */
+            $redis = $this->container->get('snc_redis.default');
+            $redis->PUBLISH($instance->getPublicKey(), $serializer->serialize($responseData, 'json'));
 
             $response->setData($responseData);
         } else {
@@ -246,6 +238,7 @@ class DefaultController extends Controller
         $instance = $this->getDoctrine()->getRepository('AppBundle:Boolean')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
 
         if (!$instance) {
+            $this->addToSpam($request);
             $response->setStatusCode(404);
         } else {
             $instance->setStatus($statusParam);
@@ -271,10 +264,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/i/{publicKey}/{writeKey}", name="instance_delete")
-     * @Method({"DELETE"})
+     * @Route("/instance/delete/{publicKey}/{writeKey}", name="instance_delete")
      */
-    public function deleteAction($publicKey, $writeKey)
+    public function deleteAction($publicKey, $writeKey, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -283,14 +275,39 @@ class DefaultController extends Controller
         $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
 
         if (!$instance) {
+            $this->addToSpam($request);
             $response->setStatusCode(404);
         } else {
             $em->remove($instance);
-            $em->flush();
+            // $em->flush();
 
-            $response->setData(['delete' => true]);
+            $responseData = [
+                    'status' => [
+                        'hasErrors' => false,
+                        'isDeleted' => true
+                    ]
+                ];
+
+            $serializer = $this->get('jms_serializer');
+
+            /** @var \Predis\Client */
+            $redis = $this->container->get('snc_redis.default');
+            $redis->PUBLISH($instance->getPublicKey(), $serializer->serialize($responseData, 'json'));
+
+            $response->setData($responseData);
         }
 
         return $response;
+    }
+
+    /**
+     * Ban any IP that accessed any editable actions with an invalid public and/or write key, for two seconds,
+     * to prevent someone bruteforcing the write key
+     * @param Request $request
+     */
+    protected function addToSpam(Request $request) {
+        /** @var \Predis\Client */
+        $redis = $this->container->get('snc_redis.default');
+        $redis->SET('spam_' . $request->getClientIp(), $request->getClientIp(), 'EX', 2);
     }
 }
