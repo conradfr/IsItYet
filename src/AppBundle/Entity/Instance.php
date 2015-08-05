@@ -182,7 +182,7 @@ class Instance
      */
     public function setTitle($title)
     {
-        $this->title = $title;
+        $this->title = substr($title, 0, 75);
     }
 
     /**
@@ -223,7 +223,7 @@ class Instance
     public function setTextFalse($textFalse)
     {
         if (empty($textFalse)) { return; } // prevent form to overwrite with a null value so we can keep the default value
-        $this->textFalse = $textFalse;
+        $this->textFalse = substr($textFalse, 0, 20);
     }
 
     /**
@@ -240,7 +240,7 @@ class Instance
     public function setTextTrue($textTrue)
     {
         if (empty($textTrue)) { return; } // prevent form to overwrite with a null value so we can keep the default value
-        $this->textTrue = $textTrue;
+        $this->textTrue = substr($textTrue, 0, 20);
     }
 
     /**
