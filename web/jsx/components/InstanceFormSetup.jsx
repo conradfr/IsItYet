@@ -4,6 +4,8 @@ var React = require('react/addons');
 var Reflux = require('reflux');
 
 var ReactSpinner = require('./ReactSpinner.jsx');
+var ReactAjaxStatus = require('./ReactAjaxStatus.jsx');
+var ReactError = require('./ReactError.jsx');
 
 var InstanceFormStore = require('../stores/InstanceFormStore.jsx');
 var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
@@ -127,7 +129,7 @@ var InstanceFormSetup = React.createClass({
                         <div className="col-md-12 col-xs-12">
                             <div className="well">
                                 <div className={clTitle}>
-                                    <label>Title</label>
+                                    <label>Title <small>(75 chars max)</small></label>
                                     <input type="text" ref="title" className="form-control" placeholder="Title, question, topic ..."
                                            value={this.state.data.title} onChange={this.onTitleChange}  />
                                     { this.state.status.errors.title ? <p className="help-block">{this.state.status.errors.title}</p> : '' }
@@ -159,18 +161,13 @@ var InstanceFormSetup = React.createClass({
                     </div>
                 </div>
 
-                { this.state.status.errors.form ?
-                    <div className="row">
-                        <div className="col-md-12 col-xs-12">
-                            <div className="alert alert-danger" role="alert">{this.state.status.errors.form}</div>
-                        </div>
-                    </div>
-                    : '' }
+                <ReactError identifier="form" />
 
                 <div className="row">
-                    <div className="col-md-offset-10 col-md-2 col-xs-12">
-                        <ReactSpinner text="form" loading={this.state.status.isLoading}/>
-                        <button type="submit" ref="submit" className="btn btn-info pull-right">Submit</button>
+                    <div className="col-md-offset-8 col-md-4 col-xs-12">
+                        <div className="pull-right"><button type="submit" ref="submit" className="btn btn-info">Submit</button></div>
+                        <ReactAjaxStatus status="updated" />
+                        <ReactSpinner identifier="form" />
                     </div>
                 </div>
                 </fieldset>

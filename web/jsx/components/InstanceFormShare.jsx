@@ -19,7 +19,7 @@ var InstanceFormShare = React.createClass({
                     <legend>Links</legend>
                     <div className="well">
                         <div className="form-group">
-                            <label>Page link</label>
+                            <label>Public page link</label>
                             <input type="text" ref="pagelink" className="form-control" value={base_url + 'i/' + this.state.data.publicKey}  onClick={this.onShareClick}
                                    readOnly/>
                         </div>
@@ -36,16 +36,17 @@ var InstanceFormShare = React.createClass({
 
                 <fieldset>
                     <legend>Social</legend>
-                        <div className="social">
-                            <div className="social-one social-fb">
-                                <div className="fb-share-button" data-href={base_url + 'i/' + this.state.data.publicKey}
+                    <div className="well">
+                        <div className="row">
+                            <div className="col-md-6 col-xs-6">
+                                <div className="fb-share-button center-block" data-href={base_url + 'i/' + this.state.data.publicKey}
                                      data-layout="button_count"></div>
                             </div>
-                            <div className="social-one social-tw">
-                                <a href="https://twitter.com/share" className="twitter-share-button" data-count="none">Tweet</a>
+                            <div className="col-md-6 col-xs-6">
+                                <a href="https://twitter.com/share" className="twitter-share-button center-block" data-count="none">Tweet</a>
                             </div>
-                            <div className="clearfix"></div>
                         </div>
+                    </div>
                 </fieldset>
             </div>
         );

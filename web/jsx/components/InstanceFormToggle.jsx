@@ -4,6 +4,8 @@ var React = require('react');
 var Reflux = require('reflux');
 
 var ReactSpinner = require('./ReactSpinner.jsx');
+var ReactAjaxStatus = require('./ReactAjaxStatus.jsx');
+var ReactError = require('./ReactError.jsx');
 
 var InstanceFormStore = require('../stores/InstanceFormStore.jsx');
 var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
@@ -45,17 +47,14 @@ var InstanceFormToggle = React.createClass({
                         </fieldset>
                     </div>
                 </div>
-                { this.state.status.errors.formStatus ?
-                    <div className="row">
-                        <div className="col-md-12">
-                            <div className="alert alert-danger" role="alert">{this.state.status.errors.formStatus}</div>
-                        </div>
-                    </div>
-                    : '' }
+
+                <ReactError identifier="formStatus" />
+
                 <div className="row">
-                    <div className="col-md-offset-10 col-md-2 col-xs-12">
-                        <ReactSpinner text="status" loading={this.state.status.isLoading}/>
-                        <button type="submit" ref="submit" className="btn btn-info pull-right">Update</button>
+                    <div className="col-md-offset-8 col-md-4 col-xs-12">
+                        <div className="pull-right"><button type="submit" ref="submit" className="btn btn-info">Update</button></div>
+                        <ReactAjaxStatus status="status" />
+                        <ReactSpinner identifier="status" />
                     </div>
                 </div>
             </form>

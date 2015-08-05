@@ -11,6 +11,9 @@ var ReactSpinner = React.createClass({
         }
     )],
     componentDidMount: function () {
+        var leftPos = this.props.leftPos || '38%';
+        var topPos = this.props.topPos || '24px';
+
         var opts = {
             lines: 7, // The number of lines to draw
             length: 3, // The length of each line
@@ -26,19 +29,20 @@ var ReactSpinner = React.createClass({
             hwaccel: false, // Whether to use hardware acceleration
             className: 'spinner', // The CSS class to assign to the spinner
             zIndex: 2e9, // The z-index (defaults to 2000000000)
-            top: '54%', // Top position relative to parent
-            left: '75px' // Left position relative to parent
+            top: topPos, // Top position relative to parent
+            left: leftPos, // Left position relative to parent
+            position: 'static'
         };
         this.spinner = new Spinner(opts);
         this.spinner.spin(React.findDOMNode(this));
-        if ((this.state.isLoading === false) || (this.state.isLoading !== this.props.text)) {
+        if ((this.state.isLoading === false) || (this.state.isLoading !== this.props.identifier)) {
             this.spinner.stop();
         }
     },
     componentWillUpdate: function(newProps, newState) {
-        if (newState.isLoading === false && this.state.isLoading === this.props.text) {
+        if (newState.isLoading === false && this.state.isLoading === this.props.identifier) {
             this.spinner.stop();
-        } else if (newState.isLoading === this.props.text && !this.state.isLoading) {
+        } else if (newState.isLoading === this.props.identifier && !this.state.isLoading) {
             this.spinner.spin(React.findDOMNode(this));
         }
     },

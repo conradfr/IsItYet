@@ -22,7 +22,7 @@ var InstanceFormStore = Reflux.createStore({
                 isDeleted: false,
                 hasErrors: false,
                 errors: {},
-                ajaxSuccess: null
+                success: {}
             }
         };
 
@@ -57,18 +57,41 @@ var InstanceFormStore = Reflux.createStore({
             status: {
                 hasErrors : false,
                 errors: {},
-                isLoading : "status",
-                ajaxSuccess: null
+                success: {},
+                isLoading : "status"
             }
         };
         this.updateInstance(newData);
 
         $.post(base_url + 'instance/status/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey, '{"status": ' + this.instance.data.status + '}')
             .done(function (data, status, headers) {
-                InstanceFormActions.instanceSubmitted.completed(data);
+                InstanceFormActions.instanceSubmitted.completed(data, 'formStatus');
             })
             .fail(function (data, status, headers) {
                 InstanceFormActions.instanceSubmitted.failed(data, 'formStatus');
+            })
+            .always(function () {
+                this.instance.status.isLoading = false;
+                this.trigger(this.instance);
+            }.bind(this));
+    },
+    onDeleteSubmitted: function (newStatus) {
+        var newData = {
+            status: {
+                hasErrors : false,
+                errors: {},
+                success: {},
+                isLoading : "delete"
+            }
+        };
+        this.updateInstance(newData);
+
+        $.get(base_url + 'instance/delete/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey)
+            .done(function (data, status, headers) {
+                InstanceFormActions.instanceSubmitted.completed(data, 'delete');
+            })
+            .fail(function (data, status, headers) {
+                InstanceFormActions.instanceSubmitted.failed(data, 'delete');
             })
             .always(function () {
                 this.instance.status.isLoading = false;
@@ -108,25 +131,39 @@ var InstanceFormStore = Reflux.createStore({
         if ((typeof data.status.hasErrors !== 'undefined') && (data.status.hasErrors === true)) {
             this.onInstanceSubmittedFailed(data);
         } else {
-            var formerIsCreated = this.instance.status.isCreated;
+            var formIsCreated = this.instance.status.isCreated;
 
             this.updateInstance(data);
 
             // Newly created instance ?
-            if ((name === 'form') && (formerIsCreated === false) && (this.instance.status.isCreated === true)) {
-                this.instance.status.ajaxSuccess = 'created';
+            if ((name === 'form') && (formIsCreated === false) && (this.instance.status.isCreated === true)) {
+                this.instance.status.success.created = true;
                 window.history.pushState(this.instance,'', base_url + 'instance/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey);
+                this.trigger(this.instance);
             }
             // Instance update ?
-            else if ((name === 'form') && (formerIsCreated === true)) {
-                this.instance.status.ajaxSuccess = 'updated';
+            else if ((name === 'form') && (formIsCreated === true)) {
+                this.instance.status.success.updated = true;
+                this.trigger(this.instance);
+                setTimeout(function(){
+                    this.instance.status.success.updated = false;
+                    this.trigger(this.instance);
+                }.bind(this), 2000);
             }
             // Status update ?
-            else if (name === 'status') {
-                this.instance.status.ajaxSuccess = 'status';
+            else if (name === 'formStatus') {
+                this.instance.status.success.status = true;
+                    this.trigger(this.instance);
+                setTimeout(function(){
+                    this.instance.status.success.status = false;
+                    this.trigger(this.instance);
+                }.bind(this), 2000);
             }
-
-            this.trigger(this.instance);
+            // Status update ?
+            else if (name === 'delete') {
+                this.instance.status.isDeleted = true;
+                this.trigger(this.instance);
+            }
         }
     },
     onInstanceSubmittedFailed: function (data, name) {
@@ -134,13 +171,21 @@ var InstanceFormStore = Reflux.createStore({
             name = 'form';
         }
 
-        // Used if no error transmitted
-        var errorObject = new Object;
-        errorObject[name] = "An error occurred, please try again later.";
+        var errors;
+
+        if ((typeof data.responseJSON !== 'undefined') && (typeof data.responseJSON.status !== 'undefined')) {
+            errors = data.responseJSON.status.errors || data.status.errors;
+        }
+
+        if (!errors) {
+            var errorObject = new Object;
+            errorObject[name] = "An error occurred, please try again later.";
+            errors = errorObject;
+        }
 
         var error = {
             hasErrors: true,
-            errors: data.responseJSON.status.errors || data.status.errors || errorObject
+            errors: errors
         };
 
         this.instance.status = React.addons.update(this.instance.status, {$merge: error});

@@ -12,7 +12,7 @@ var ReactAjaxStatus = React.createClass({
         }
     )],
     render: function () {
-        var okIcon = this.state.status.success[this.props.status] === true ? <span key="ajax-ok" className="glyphicon glyphicon-ok" aria-hidden="true"></span> : null;
+        var okIcon = this.state.status.success[this.props.status] === true ? <span key="ajax-ok" className="glyphicon glyphicon-ok" aria-hidden="true"></span> : [];
         return (
             <div className="ajax-success">
                     <ReactCSSTransitionGroup transitionName="ajax-success">
