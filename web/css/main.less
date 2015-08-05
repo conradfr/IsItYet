@@ -57,6 +57,11 @@ fieldset legend{
   padding: 14px !important;
   margin-bottom: 5px !important;
 }
+
+.spinner {
+  position: relative !important;
+}
+
 /* -- */
 
 .post-well {
@@ -83,8 +88,45 @@ form {
       }
     }
   }
+}
 
-  .spinner-container {
+fieldset, form {
+  .alert {
+    margin-bottom: 5px;
+  }
+
+  .ajax-success {
     float: right !important;
+    opacity: 0.7;
+    padding: 14px 15px 0 0;
+  }
+
+  /* Icon animation (React) */
+
+  .ajax-success-enter, .ajax-error-enter {
+    opacity: 0.01;
+  }
+
+  .ajax-success-enter.ajax-success-enter-active {
+    opacity: 0.6;
+    transition: opacity .3s ease-in;
+  }
+
+  .ajax-success-leave {
+    opacity: 0.6;
+  }
+
+  .ajax-success-leave.ajax-success-leave-active, .ajax-error-leave.ajax-error-leave-active {
+    opacity: 0.01;
+    transition: opacity .2s ease-in;
+  }
+
+  .ajax-error-enter.ajax-error-enter-active {
+    opacity: 1;
+    transition: opacity .3s ease-in;
+  }
+
+  .ajax-error-leave {
+    opacity: 1;
   }
 }
