@@ -17,18 +17,18 @@ var Instance = React.createClass({
         var components = [];
         if (this.state.status.isDeleted === true) {
             components.push(
-                <div className="status-deleted">
+                <div key="deleted" className="status-deleted">
                     <div>This page has been deleted.</div>
                     <div><small>(sorry)</small></div>
                 </div>
             );
         } else {
             components.push(
-                <InstanceStatus status={this.state.data.status} textFalse={this.state.data.textFalse}
+                <InstanceStatus key="status" status={this.state.data.status} textFalse={this.state.data.textFalse}
                                 textTrue={this.state.data.textTrue} />);
 
             if (this.state.data.type === 'countdown') {
-                components.push(<InstanceCountdown timeLeft={this.state.data.time_left} />);
+                components.push(<InstanceCountdown key="countdown" timeLeft={this.state.data.time_left} />);
             }
         }
 
