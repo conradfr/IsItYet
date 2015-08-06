@@ -29,7 +29,7 @@ class LoadCountdownData implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         // 'upsert'
-        $instance =  $this->container->get('doctrine')->getRepository('AppBundle:Boolean')->findOneBy(['publicKey' => 'countdown-demo', 'writeKey' => '4ae51a53-c64a-43da-9284-278e0ad53120']);
+        $instance =  $this->container->get('doctrine')->getRepository('AppBundle:Countdown')->findOneBy(['publicKey' => 'countdown-demo', 'writeKey' => '4ae51a53-c64a-43da-9284-278e0ad53120']);
 
         if (!$instance) {
             $instance = new Countdown();
