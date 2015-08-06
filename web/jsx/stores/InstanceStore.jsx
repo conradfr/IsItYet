@@ -19,12 +19,9 @@ var InstanceStore = Reflux.createStore({
                 var ws = ab.connect(ws_url,
                     function (session) {
                         session.subscribe(that.instance.data.publicKey, function(topic, data) {
-                            console.log(data);
                             var jsonData = JSON.parse(data);
-                            console.log(jsonData);
                             //if (typeof jsonData.instance !== 'undefined') {
                                 that.updateInstance(jsonData);
-                                console.log(that.instance);
                             //}
                         });
                     },
