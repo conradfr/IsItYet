@@ -16,7 +16,7 @@ var InstanceStatus = React.createClass({
         });
         return (
             <div>
-                <ReactCSSTransitionGroup transitionName="instance-status">
+                <ReactCSSTransitionGroup transitionName="instance-status" transitionLeave={false}>
                     <span key={this.text()} className={classes}>
                         { this.text() }
                     </span>
