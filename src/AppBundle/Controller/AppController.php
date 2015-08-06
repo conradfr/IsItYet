@@ -21,7 +21,7 @@ use AppBundle\Entity\Instance,
  */
 class AppController extends Controller implements BruteForceProtectionController
 {
-    /**
+     /**
      * @Route("/{publicKey}/{writeKey}", name="app", defaults={"publicKey"="", "writeKey"=""})
      * @Method({"GET"})
      */
@@ -49,8 +49,10 @@ class AppController extends Controller implements BruteForceProtectionController
     }
 
     /**
-     * @Route("/", name="instance_submit")
+     * @Route("/{whatever}", name="instance_submit", defaults={"whatever"=""})
      * @Method({"POST"})
+     *
+     * @note it seems a route w/ only "/" is not parsed by Symfony2, hence putting an unused optional parameter
      */
     public function submitAction(Request $request)
     {
@@ -85,23 +87,23 @@ class AppController extends Controller implements BruteForceProtectionController
 
             // Construct response
             $responseData = $this->getDoctrine()->getRepository('AppBundle:Instance')->getExportableInstance($instance, true);
-/*            $responseData = [
-                'data' => [
-                    'title' => $instance->getTitle(),
-                    'textFalse' => $instance->getTextFalse(),
-                    'textTrue' => $instance->getTextTrue(),
-                ],
-                'meta' => [
-                    'publicKey' => $instance->getPublicKey(),
-                    'writeKey' => $instance->getWriteKey(),
-                    'editLink' => $this->generateUrl('app', ['publicKey' => $instance->getPublicKey(), 'writeKey' => $instance->getWriteKey()], true)
-                ],
-                'status' => [
-                    'created' => true,
-                    'error' => false,
-                    'deleted' => false
-                ]
-            ];*/
+            /*            $responseData = [
+                            'data' => [
+                                'title' => $instance->getTitle(),
+                                'textFalse' => $instance->getTextFalse(),
+                                'textTrue' => $instance->getTextTrue(),
+                            ],
+                            'meta' => [
+                                'publicKey' => $instance->getPublicKey(),
+                                'writeKey' => $instance->getWriteKey(),
+                                'editLink' => $this->generateUrl('app', ['publicKey' => $instance->getPublicKey(), 'writeKey' => $instance->getWriteKey()], true)
+                            ],
+                            'status' => [
+                                'created' => true,
+                                'error' => false,
+                                'deleted' => false
+                            ]
+                        ];*/
 
             $response->setData($responseData);
         } else {
