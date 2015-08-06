@@ -10,12 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
+use AppBundle\Controller\BruteForceProtectionController;
 
 use AppBundle\Entity\Instance,
     AppBundle\Entity\Boolean as InstanceBoolean,
     AppBundle\Form\Type\InstanceType;
 
-class DefaultController extends Controller
+class DefaultController extends Controller implements BruteForceProtectionController
 {
     /**
      * @Route("/instance/{publicKey}/{writeKey}", name="app", defaults={"publicKey"="", "writeKey"=""})
@@ -33,7 +34,7 @@ class DefaultController extends Controller
             $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
 
             if (!$instance) {
-                $this->addToSpam($request);
+                $this->addToAntiBruteForce($request);
                 throw $this->createNotFoundException('The requested instance has not been found.');
             }
 
@@ -52,7 +53,7 @@ class DefaultController extends Controller
         $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneByPublicKey($publicKey);
 
         if (!$instance) {
-            $this->addToSpam($request);
+            $this->addToAntiBruteForce($request);
             throw $this->createNotFoundException('The requested instance has not been found.');
         }
 
@@ -152,7 +153,7 @@ class DefaultController extends Controller
 
         $baseInstance = $doctrine->getRepository('AppBundle:Instance')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
         if (!$baseInstance) {
-            $this->addToSpam($request);
+            $this->addToAntiBruteForce($request);
             throw $this->createNotFoundException('The requested instance has not been found.');
         }
 
@@ -238,7 +239,7 @@ class DefaultController extends Controller
         $instance = $this->getDoctrine()->getRepository('AppBundle:Boolean')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
 
         if (!$instance) {
-            $this->addToSpam($request);
+            $this->addToAntiBruteForce($request);
             $response->setStatusCode(404);
         } else {
             $instance->setStatus($statusParam);
@@ -275,7 +276,7 @@ class DefaultController extends Controller
         $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
 
         if (!$instance) {
-            $this->addToSpam($request);
+            $this->addToAntiBruteForce($request);
             $response->setStatusCode(404);
         } else {
             $em->remove($instance);
@@ -305,9 +306,9 @@ class DefaultController extends Controller
      * to prevent someone bruteforcing the write key
      * @param Request $request
      */
-    protected function addToSpam(Request $request) {
+    protected function addToAntiBruteForce(Request $request) {
         /** @var \Predis\Client */
         $redis = $this->container->get('snc_redis.default');
-        $redis->SET('spam_' . $request->getClientIp(), $request->getClientIp(), 'EX', 2);
+        $redis->SET('bruteforce_' . $request->getClientIp(), $request->getClientIp(), 'EX', 2);
     }
 }

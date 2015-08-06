@@ -6,3 +6,9 @@ services:
 
     form_serializer:
         class:        AppBundle\Utils\FormErrorsSerializer
+
+    app.bruteforce.action_listener:
+        class: AppBundle\EventListener\BruteForceListener
+        arguments: [@snc_redis.default]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
