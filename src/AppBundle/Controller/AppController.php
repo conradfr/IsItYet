@@ -254,13 +254,27 @@ class AppController extends Controller implements BruteForceProtectionController
         $em = $this->getDoctrine()->getManager();
 
         $response = new JsonResponse();
+        $responseData = [];
 
         $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
 
         if (!$instance) {
             $this->addToAntiBruteForce($request);
             $response->setStatusCode(404);
-        } else {
+        }
+        elseif($instance->isIsDemo() === true) {
+            $response->setStatusCode(400);
+            $responseData = [
+                'status' => [
+                    'hasErrors' => false,
+                    'errors' => [
+                      'delete' => "Demo pages can't be deleted."
+                    ],
+                    'isDeleted' => false
+                ]
+            ];
+        }
+        else {
             $em->remove($instance);
             $em->flush();
 
@@ -276,10 +290,9 @@ class AppController extends Controller implements BruteForceProtectionController
             /** @var \Predis\Client */
             $redis = $this->container->get('snc_redis.default');
             $redis->PUBLISH($instance->getPublicKey(), $serializer->serialize($responseData, 'json'));
-
-            $response->setData($responseData);
         }
 
+        $response->setData($responseData);
         return $response;
     }
 

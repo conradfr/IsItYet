@@ -84,7 +84,7 @@ var InstanceFormSetup = React.createClass({
 
         // Is instance still editable (15 minutes limit) ?
         var instanceEditable = true;
-        if (typeof this.state.data.createdAt !== 'undefined') {
+        if ((this.state.data.isDemo !== true) && (typeof this.state.data.createdAt !== 'undefined')) {
             var instanceDate = new Date(this.state.data.createdAt);
             var currDate = new Date();
             if (((currDate - instanceDate) / (60 * 1000)) > 15) {

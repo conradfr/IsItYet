@@ -86,6 +86,14 @@ class Instance
     private $textTrue = 'YES';
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_demo", type="boolean", options={"default" = false})
+     * @Assert\True(message = "Well ...")
+     */
+    private $isDemo = false;
+
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -104,6 +112,11 @@ class Instance
     /** @ORM\PrePersist */
     public function createUuidOnPrePersist()
     {
+        // allow fixtures with provided write key
+        if (!empty($this->writeKey)) {
+            return;
+        }
+
         try {
             // Generate a version 4 (random) UUID object
             $uuid4 = Uuid::uuid4();
@@ -119,6 +132,11 @@ class Instance
      */
     public function validate(ExecutionContextInterface $context)
     {
+        // Always allow demos to be edited
+        if ($this->isIsDemo() === true) {
+            return;
+        }
+
         // Execute only if already an instance
         if ($this->createdAt instanceof \DateTime) {
             $diffDate = $this->createdAt->diff(new \DateTime());
@@ -241,6 +259,22 @@ class Instance
     {
         if (empty($textTrue)) { return; } // prevent form to overwrite with a null value so we can keep the default value
         $this->textTrue = substr($textTrue, 0, 20);
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isIsDemo()
+    {
+        return $this->isDemo;
+    }
+
+    /**
+     * @param boolean $isDemo
+     */
+    public function setIsDemo($isDemo)
+    {
+        $this->isDemo = $isDemo;
     }
 
     /**

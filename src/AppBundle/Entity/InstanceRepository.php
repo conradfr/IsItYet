@@ -32,6 +32,7 @@ class InstanceRepository extends EntityRepository
             'title' => $instance->getTitle(),
             'textFalse' => $instance->getTextFalse(),
             'textTrue' => $instance->getTextTrue(),
+            'isDemo' => $instance->isIsDemo(),
             'createdBy' => $instance->getCreatedBy(),
             'createdAt' => $instance->getCreatedAt(),
             'type' => $type

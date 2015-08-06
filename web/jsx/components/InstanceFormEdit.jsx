@@ -36,11 +36,12 @@ var InstanceFormEdit = React.createClass({
                         { this.state.data.type === 'boolean' ? <InstanceFormToggle /> : '' }
                         <fieldset>
                             <legend>Settings</legend>
-                            <div className="row">
-                                <div className="col-md-12 col-xs-12">
-                                    <div className="well" role="alert">You can only modify your page's settings 15 minutes after its creation.</div>
-                                </div>
-                            </div>
+                            { this.state.data.isDemo === true ? '' :
+                                <div className="row">
+                                    <div className="col-md-12 col-xs-12">
+                                        <div className="well" role="alert">You can only modify your page's settings 15 minutes after its creation.</div>
+                                    </div>
+                                </div> }
                             <InstanceFormSetup />
                         </fieldset>
                     </div>
@@ -50,7 +51,7 @@ var InstanceFormEdit = React.createClass({
                             <div className="well">
                                 <ReactError identifier="delete" />
                                 <ReactSpinner identifier="delete" leftPos="28%" />
-                                <button type="button" className="btn btn-danger center-block" onClick={this.onDeleteClick}>Delete this page</button>
+                                <button type="button" className="btn btn-danger center-block" disabled={this.state.data.isDemo === true} onClick={this.onDeleteClick}>Delete this page</button>
 
                             </div>
                         </fieldset>

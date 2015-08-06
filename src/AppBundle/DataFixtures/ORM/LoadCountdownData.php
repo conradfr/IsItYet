@@ -3,25 +3,48 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Countdown;
 
-class LoadCountdownData implements FixtureInterface
+class LoadCountdownData implements FixtureInterface, ContainerAwareInterface
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     /**
      * {@inheritDoc}
      */
     public function load(ObjectManager $manager)
     {
-        $countdown = new Countdown();
+        // 'upsert'
+        $instance =  $this->container->get('doctrine')->getRepository('AppBundle:Boolean')->findOneBy(['publicKey' => 'countdown-demo', 'writeKey' => '4ae51a53-c64a-43da-9284-278e0ad53120']);
 
-        $countdown->setTitle("Fin de cette instance");
-        $countdown->setPublicKey(uniqid());
-//        $countdown->setWriteKey(uniqid());
+        if (!$instance) {
+            $instance = new Countdown();
+        }
 
-        $countdown->setEndAt(new \DateTime('2015-07-14T20:00:00+0000'));
+        $instance->setTitle("Is the end of the countdown reached ?");
 
-        $manager->persist($countdown);
+        $instance->setEndAt(new \DateTime('2016-01-01T00:00:00+0000'));
+
+        $instance->setPublicKey('countdown-demo');
+        $instance->setWriteKey('4ae51a53-c64a-43da-9284-278e0ad53120');
+
+        $instance->setIsDemo(true);
+
+        $manager->persist($instance);
         $manager->flush();
     }
 }
