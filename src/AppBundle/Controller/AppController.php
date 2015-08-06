@@ -19,7 +19,7 @@ use AppBundle\Entity\Instance,
 /**
  * @Route("/instance")
  */
-class DefaultController extends Controller implements BruteForceProtectionController
+class AppController extends Controller implements BruteForceProtectionController
 {
     /**
      * @Route("/{publicKey}/{writeKey}", name="app", defaults={"publicKey"="", "writeKey"=""})
@@ -31,7 +31,7 @@ class DefaultController extends Controller implements BruteForceProtectionContro
 
         // Dispatch or get instance data based on optional keys
         if ((!empty($publicKey)) && (empty($writeKey))) {
-            return $this->forward('AppBundle:Default:view', ['publicKey' => $publicKey]);
+            return $this->forward('AppBundle:Site:view', ['publicKey' => $publicKey]);
         }
         elseif ((!empty($publicKey)) && (!empty($writeKey))) {
             $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneBy(['publicKey' => $publicKey, 'writeKey' => $writeKey]);
