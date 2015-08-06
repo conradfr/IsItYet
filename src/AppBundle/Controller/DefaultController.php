@@ -16,10 +16,13 @@ use AppBundle\Entity\Instance,
     AppBundle\Entity\Boolean as InstanceBoolean,
     AppBundle\Form\Type\InstanceType;
 
+/**
+ * @Route("/instance")
+ */
 class DefaultController extends Controller implements BruteForceProtectionController
 {
     /**
-     * @Route("/instance/{publicKey}/{writeKey}", name="app", defaults={"publicKey"="", "writeKey"=""})
+     * @Route("/{publicKey}/{writeKey}", name="app", defaults={"publicKey"="", "writeKey"=""})
      * @Method({"GET"})
      */
     public function appAction($publicKey, $writeKey, Request $request)
@@ -46,26 +49,7 @@ class DefaultController extends Controller implements BruteForceProtectionContro
     }
 
     /**
-     * @Route("/i/{publicKey}", name="instance_view")
-     */
-    public function viewAction($publicKey)
-    {
-        $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneByPublicKey($publicKey);
-
-        if (!$instance) {
-            $this->addToAntiBruteForce($request);
-            throw $this->createNotFoundException('The requested instance has not been found.');
-        }
-
-        $instanceExport = $this->getDoctrine()->getRepository('AppBundle:Instance')->getExportableInstance($instance);
-
-        return $this->render('default/instance.html.twig', [
-            'instance' => $instanceExport
-        ]);
-    }
-
-    /**
-     * @Route("/instance", name="instance_submit")
+     * @Route("/", name="instance_submit")
      * @Method({"POST"})
      */
     public function submitAction(Request $request)
@@ -92,8 +76,6 @@ class DefaultController extends Controller implements BruteForceProtectionContro
 
         $form = $this->createForm(new instanceType(), $instance);
 
-        // $form->handleRequest($request);
-//        $form->submit($request->request->all(), false);
         $form->submit($request->request->all());
 
         if ($form->isValid()) {
@@ -144,7 +126,7 @@ class DefaultController extends Controller implements BruteForceProtectionContro
     }
 
     /**
-     * @Route("/instance/{publicKey}/{writeKey}", name="instance_edit")
+     * @Route("/{publicKey}/{writeKey}", name="instance_edit")
      * @Method({"POST"})
      */
     public function editAction($publicKey, $writeKey, Request $request)
@@ -207,7 +189,7 @@ class DefaultController extends Controller implements BruteForceProtectionContro
     }
 
     /**
-     * @Route("/instance/status/{publicKey}/{writeKey}", name="instance_status")
+     * @Route("/status/{publicKey}/{writeKey}", name="instance_status")
      * @Method({"POST"})
      */
     public function statusAction($publicKey, $writeKey, Request $request)
@@ -265,7 +247,7 @@ class DefaultController extends Controller implements BruteForceProtectionContro
     }
 
     /**
-     * @Route("/instance/delete/{publicKey}/{writeKey}", name="instance_delete")
+     * @Route("/delete/{publicKey}/{writeKey}", name="instance_delete")
      */
     public function deleteAction($publicKey, $writeKey, Request $request)
     {
@@ -280,7 +262,7 @@ class DefaultController extends Controller implements BruteForceProtectionContro
             $response->setStatusCode(404);
         } else {
             $em->remove($instance);
-            // $em->flush();
+            $em->flush();
 
             $responseData = [
                     'status' => [
