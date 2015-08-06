@@ -52,7 +52,7 @@ class AppController extends Controller implements BruteForceProtectionController
      * @Route("/{whatever}", name="instance_submit", defaults={"whatever"=""})
      * @Method({"POST"})
      *
-     * @note it seems a route w/ only "/" is not parsed by Symfony2, hence putting an unused optional parameter
+     * note: it seems a route w/ only "/" is not parsed by Symfony2, hence putting an unused optional parameter
      */
     public function submitAction(Request $request)
     {
