@@ -29,7 +29,6 @@ class Pusher implements WampServerInterface {
      */
     public function pubsub($event, $pubsub) {
         if (isset($event->channel)) {
-            echo $event->payload;
             $topic = $this->subscribedTopics[$event->channel];
             $topic->broadcast($event->payload);
         } else {
