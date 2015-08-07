@@ -89,7 +89,6 @@ class Instance
      * @var boolean
      *
      * @ORM\Column(name="is_demo", type="boolean", options={"default" = false})
-     * @Assert\False(message = "Well ...")
      */
     private $isDemo = false;
 
