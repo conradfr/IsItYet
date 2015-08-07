@@ -1,5 +1,12 @@
 {% extends 'site.html.twig' %}
 
+{% block title %}
+    {% if instance is defined %}
+        {{ instance.data.title }} -
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
 {% block javascript_head %}
     {% if instance is defined %}
         var instanceData = {{ instance | serialize('json') | raw }};
