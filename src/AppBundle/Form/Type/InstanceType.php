@@ -42,9 +42,15 @@ class InstanceType extends AbstractType
 
             $builder->addEventListener(FormEvents::PRE_SUBMIT , function (FormEvent $event) {
                 $form = $event->getForm();
+                $reflect = new \ReflectionClass($form->getData());
 
-                if($form->get('type') === 'countdown') {
-                    $form->add('endAt', 'datetime', [
+                if (strtolower($reflect->getShortName()) === Instance::TYPE_COUNTDOWN) {
+
+                    /*
+                     * 'text' is used instead of 'datetime' as datetime has apparently trouble validating the ISO 8601 date format,
+                     * so as we do not use the form rendering, the validating only needs to be done by the entity assertion.
+                     */
+                    $form->add('endAt', 'text', [
                         'error_bubbling' => false
                     ]);
                 }

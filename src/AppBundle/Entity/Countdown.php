@@ -16,7 +16,7 @@ class Countdown extends Instance
      * @var \DateTime
      *
      * @ORM\Column(name="end_at", type="datetimetz")
-     * @Assert\DateTime()
+     * Assert\DateTime()
      */
     private $endAt;
 
@@ -28,10 +28,18 @@ class Countdown extends Instance
     private $useTimezone = false;
 
     /**
-     * @param \DateTime $endAt
+     * @param \DateTime|string $endAt
      */
     public function setEndAt($endAt)
     {
+        /*
+         * As we do not rely on the datetime form input but text instead (cf comment in InstanType),
+         * we transform the input string into a DateTime here
+         */
+        if (is_string($endAt)) {
+            $endAt = new \DateTime($endAt);
+        }
+
         $this->endAt = $endAt;
     }
 
