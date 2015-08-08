@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "aliasify": "^1.7.2",
     "gulp": "^3.9",
     "gulp-browserify": "^0.5.1",
     "gulp-concat": "^2.5.2",
@@ -10,10 +11,17 @@
     "gulp-react": "^3.0.1",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
+    "moment": "^2.10.6",
     "react": "^0.13.3",
+    "react-bootstrap-datetimepicker": "0.0.18",
     "react-cookie": "^0.2.5",
     "reactify": "^1.1.1",
     "reflux": "^0.2.11",
     "xtend": "^4.0.0"
+  },
+  "aliasify": {
+    "aliases": {
+      "moment": "./node_modules/moment/min/moment-with-locales.js"
+    }
   }
 }
