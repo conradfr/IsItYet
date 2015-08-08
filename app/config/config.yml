@@ -41,6 +41,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         ws_port: %ws_port%
+        analytics: %analytics%
 
 # Assetic Configuration
 assetic:
