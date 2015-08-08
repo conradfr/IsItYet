@@ -7,6 +7,9 @@ var ReactSpinner = require('./ReactSpinner.jsx');
 var ReactAjaxStatus = require('./ReactAjaxStatus.jsx');
 var ReactError = require('./ReactError.jsx');
 
+var DateTimeField = require('react-bootstrap-datetimepicker');
+var moment = require('moment');
+
 var InstanceFormStore = require('../stores/InstanceFormStore.jsx');
 var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 
@@ -36,27 +39,21 @@ var InstanceFormSetup = React.createClass({
     onTextTrueChange: function(event) {
         this.inputChange('textTrue', event);
     },
-    onDateChange: function(event) {
-        this.inputChange('date', event);
+    onDateChange: function(newDate) {
+        var oldDate = this.state.data.endAt ? moment(this.state.data.endAt) : moment();
+        var momentNewDate = moment(parseInt(newDate));
+        oldDate.set({'year': momentNewDate.get('year'), 'month': momentNewDate.get('month'), 'date': momentNewDate.get('date')});
+        InstanceFormActions.inputUpdated('endAt', oldDate.toISOString());
     },
-    onTimeChange: function(event) {
-        this.inputChange('time', event);
+    onTimeChange: function(newTime) {
+        var oldDate = this.state.data.endAt ? moment(this.state.data.endAt) : moment();
+        var momentNewDate = moment(parseInt(newTime));
+        oldDate.set({'second': momentNewDate.get('second'), 'minute': momentNewDate.get('minute'), 'date': momentNewDate.get('hour')});
+        InstanceFormActions.inputUpdated('endAt', oldDate.toISOString());
     },
     onSubmit: function(e) {
         e.preventDefault();
-
-        var formData = {
-            title: React.findDOMNode(this.refs.title).value,
-            textFalse: React.findDOMNode(this.refs.textFalse).value,
-            textTrue: React.findDOMNode(this.refs.textTrue).value
-        };
-
-        if (this.state.data.type === 'countdown') {
-            formData.date = React.findDOMNode(this.refs.date).value;
-            formData.time = React.findDOMNode(this.refs.time).value;
-        }
-
-        InstanceFormActions.instanceSubmitted(formData);
+        InstanceFormActions.instanceSubmitted();
     },
     render: function() {
         //has-error
@@ -105,18 +102,20 @@ var InstanceFormSetup = React.createClass({
                 'has-error': (typeof this.state.status.errors.endAt !== 'undefined')
             });
 
+            var currEndAt = this.state.data.endAt ? moment(this.state.data.endAt) : moment();
+
             Countdown =
             <div className="row">
                 <div className="col-md-6 col-xs-12">
                     <div className={clDateTime}>
                         <label>Date</label>
-                        <input type="text" ref="date" className="form-control" value={this.state.data.date} />
+                        <DateTimeField mode='date' minDate={moment()} inputFormat='MM/DD/YYYY' dateTime={currEndAt} onChange={ this.onDateChange } />
                     </div>
                 </div>
                 <div className="col-md-6 col-xs-12">
                     <div className={clDateTime}>
                         <label>Time</label>
-                        <input type="text" ref="time" className="form-control" value={this.state.data.time} />
+                        <DateTimeField mode='time' dateTime={currEndAt} inputFormat='h:mm A' onChange={ this.onTimeChange } />
                     </div>
                 </div>
             </div>;

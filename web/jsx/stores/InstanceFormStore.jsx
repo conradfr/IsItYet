@@ -31,7 +31,6 @@ var InstanceFormStore = Reflux.createStore({
         }
 
         window.onpopstate = function(event) {
-            console.log(this.state);
             this.instance = event.state;
             this.trigger(this.instance);
         }.bind(this);
@@ -138,12 +137,14 @@ var InstanceFormStore = Reflux.createStore({
             // Newly created instance ?
             if ((name === 'form') && (formIsCreated === false) && (this.instance.status.isCreated === true)) {
                 this.instance.status.success.created = true;
+                document.title = this.instance.data.title + ' - IsItYet';
                 window.history.pushState(this.instance,'', base_url + 'instance/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey);
                 this.trigger(this.instance);
             }
             // Instance update ?
             else if ((name === 'form') && (formIsCreated === true)) {
                 this.instance.status.success.updated = true;
+                document.title = this.instance.data.title + ' - IsItYet';
                 this.trigger(this.instance);
                 setTimeout(function(){
                     this.instance.status.success.updated = false;
