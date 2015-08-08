@@ -14,7 +14,7 @@ var InstanceFormDeleted = React.createClass({
                         <p><strong>You page has been successfully deleted.</strong></p>
                     </div>
 
-                    <p><a href={base_url + '/instance'}>Create a new one</a></p>
+                    <p><a href={base_url + 'instance'}>Create a new one</a></p>
                 </div>
             </div>
         );
