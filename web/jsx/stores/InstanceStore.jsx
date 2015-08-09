@@ -14,23 +14,22 @@ var InstanceStore = Reflux.createStore({
         if (typeof instanceData !== 'undefined') {
             this.instance = instanceData;
 
-            if (this.instance.data.type !== "countdown") {
-                var that = this;
-                var ws = ab.connect(ws_url,
-                    function (session) {
-                        session.subscribe(that.instance.data.publicKey, function(topic, data) {
-                            var jsonData = JSON.parse(data);
-                            //if (typeof jsonData.instance !== 'undefined') {
-                                that.updateInstance(jsonData);
-                            //}
-                        });
-                    },
-                    function (code, reason, detail) { },
-                    {
-                        'skipSubprotocolCheck': true
-                    }
-                );
-            } else {
+            var that = this;
+            var ws = ab.connect(ws_url,
+                function (session) {
+                    session.subscribe(that.instance.data.publicKey, function(topic, data) {
+                        var jsonData = JSON.parse(data);
+                        //if (typeof jsonData.instance !== 'undefined') {
+                            that.updateInstance(jsonData);
+                        //}
+                    });
+                },
+                function (code, reason, detail) { }, {
+                    'skipSubprotocolCheck': true
+                }
+            );
+
+            if (this.instance.data.type === "countdown") {
                 this.instance.data.status = false;
                 this.instance.data.time_left = 0;
 
