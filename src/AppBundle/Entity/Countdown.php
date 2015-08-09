@@ -44,10 +44,14 @@ class Countdown extends Instance
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|string
      */
-    public function getEndAt()
+    public function getEndAt($asString=true)
     {
+        if ($asString === true) {
+            return $this->endAt->format(\DateTime::ISO8601);
+        }
+
         return $this->endAt;
     }
 

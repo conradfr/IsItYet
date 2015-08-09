@@ -4,6 +4,8 @@ var React = require('react');
 
 var InstanceCountdown = React.createClass({
     formatTimeLeft: function() {
+        var timeLeft = this.props.timeLeft;
+
         return {
             days:  (this.props.timeLeft / 8.64e7 | 0),
             hours: ((this.props.timeLeft % 8.64e7)/ 3.6e6 | 0),

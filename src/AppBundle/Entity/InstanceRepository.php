@@ -42,7 +42,10 @@ class InstanceRepository extends EntityRepository
             $data['data']['status'] = $instance->getStatus();
         }
         elseif ($type === Instance::TYPE_COUNTDOWN) {
-            $data['data']['endAt'] = $instance->getendAt()->format(\DateTime::ISO8601);
+            $dateStr = $instance->getUseTimezone() === true ? $instance->getendAt(false)->format(\DateTime::ISO8601)
+                : $instance->getendAt(false)->format('Y-m-d\TH:i:s');
+
+            $data['data']['endAt'] = $instance->getendAt(false)->format(\DateTime::ISO8601);
             $data['data']['useTimezone'] = $instance->getUseTimezone();
         }
 

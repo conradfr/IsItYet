@@ -43,13 +43,13 @@ var InstanceFormSetup = React.createClass({
         var oldDate = this.state.data.endAt ? moment(this.state.data.endAt) : moment();
         var momentNewDate = moment(parseInt(newDate));
         oldDate.set({'year': momentNewDate.get('year'), 'month': momentNewDate.get('month'), 'date': momentNewDate.get('date')});
-        InstanceFormActions.inputUpdated('endAt', oldDate.toISOString());
+        InstanceFormActions.inputUpdated('endAt', oldDate.format('YYYY-MM-DDTHH:mm:ssZZ'));
     },
     onTimeChange: function(newTime) {
         var oldDate = this.state.data.endAt ? moment(this.state.data.endAt) : moment();
         var momentNewDate = moment(parseInt(newTime));
         oldDate.set({'second': momentNewDate.get('second'), 'minute': momentNewDate.get('minute'), 'date': momentNewDate.get('hour')});
-        InstanceFormActions.inputUpdated('endAt', oldDate.toISOString());
+        InstanceFormActions.inputUpdated('endAt', oldDate.format('YYYY-MM-DDTHH:mm:ssZZ'));
     },
     onSubmit: function(e) {
         e.preventDefault();
@@ -102,20 +102,23 @@ var InstanceFormSetup = React.createClass({
                 'has-error': (typeof this.state.status.errors.endAt !== 'undefined')
             });
 
-            var currEndAt = this.state.data.endAt ? moment(this.state.data.endAt) : moment();
+            if (this.state.data.endAt) {
+                InstanceFormActions.inputUpdated('endAt', moment().toISOString());
+            }
+            var currEndAt = moment(this.state.data.endAt);
 
             Countdown =
             <div className="row">
                 <div className="col-md-6 col-xs-12">
                     <div className={clDateTime}>
                         <label>Date</label>
-                        <DateTimeField mode='date' minDate={moment()} inputFormat='MM/DD/YYYY' dateTime={currEndAt} onChange={ this.onDateChange } />
+                        <DateTimeField mode='date' minDate={moment()} inputFormat='MM/DD/YYYY' dateTime={currEndAt} onChange={this.onDateChange} />
                     </div>
                 </div>
                 <div className="col-md-6 col-xs-12">
                     <div className={clDateTime}>
                         <label>Time</label>
-                        <DateTimeField mode='time' dateTime={currEndAt} inputFormat='h:mm A' onChange={ this.onTimeChange } />
+                        <DateTimeField mode='time' dateTime={currEndAt} inputFormat='h:mm A' onChange={this.onTimeChange} />
                     </div>
                 </div>
             </div>;

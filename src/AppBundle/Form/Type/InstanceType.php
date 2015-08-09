@@ -50,7 +50,15 @@ class InstanceType extends AbstractType
                      * 'text' is used instead of 'datetime' as datetime has apparently trouble validating the ISO 8601 date format,
                      * so as we do not use the form rendering, the validating only needs to be done by the entity assertion.
                      */
-                    $form->add('endAt', 'text', [
+/*                    $form->add('endAt', 'text', [
+                        'error_bubbling' => false
+                    ]);*/
+
+                    $form->add('endAt', 'datetime', [
+                        'date_format' => "yyyy-MM-dd'T'HH:mm:ssZZZ",
+                        'format' => "yyyy-MM-dd'T'HH:mm:ssZZZ",
+                        'date_widget' => 'single_text',
+                        'time_widget' => 'single_text',
                         'error_bubbling' => false
                     ]);
                 }
