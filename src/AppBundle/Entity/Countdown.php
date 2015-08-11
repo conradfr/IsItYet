@@ -68,7 +68,7 @@ class Countdown extends Instance
      */
     public function getEndAt($asString=true)
     {
-        if ($asString === true) {
+        if (($asString === true) && (is_a($this->endAt, '\DateTime'))) {
             return $this->endAt->format(\DateTime::ISO8601);
         }
 
