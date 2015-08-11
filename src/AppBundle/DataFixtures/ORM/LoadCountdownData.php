@@ -46,6 +46,7 @@ class LoadCountdownData implements FixtureInterface, ContainerAwareInterface
 
         $instance->setCreatedBy('IsItYet demo');
         $instance->setIsDemo(true);
+        $instance->setShowTextFalse(true);
 
         $manager->persist($instance);
         $manager->flush();

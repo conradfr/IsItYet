@@ -37,6 +37,13 @@ class Countdown extends Instance
     private $useTimezone = false;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="show_textfalse", type="boolean", options={"default" = true})
+     */
+    private $showTextFalse = true;
+
+    /**
      * @param \DateTime|string $endAt
      */
     public function setEndAt($endAt)
@@ -100,5 +107,19 @@ class Countdown extends Instance
         return $this->useTimezone;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isShowTextFalse()
+    {
+        return $this->showTextFalse;
+    }
 
+    /**
+     * @param boolean $showTextFalse
+     */
+    public function setShowTextFalse($showTextFalse)
+    {
+        $this->showTextFalse = $showTextFalse;
+    }
 }
