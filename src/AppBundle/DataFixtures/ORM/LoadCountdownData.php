@@ -37,11 +37,14 @@ class LoadCountdownData implements FixtureInterface, ContainerAwareInterface
 
         $instance->setTitle("Is the end of the countdown reached ?");
 
-        $instance->setEndAt(new \DateTime('2016-01-01T00:00:00+0200'));
+        $instance->setEndAt(new \DateTime('2015-08-12T00:00:00+0200'));
+
+        $instance->setUseTimezone(false);
 
         $instance->setPublicKey('countdown-demo');
         $instance->setWriteKey('4ae51a53-c64a-43da-9284-278e0ad53120');
 
+        $instance->setCreatedBy('IsItYet demo');
         $instance->setIsDemo(true);
 
         $manager->persist($instance);

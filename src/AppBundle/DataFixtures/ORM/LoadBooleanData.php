@@ -42,6 +42,7 @@ class LoadBooleanData implements FixtureInterface, ContainerAwareInterface
         $instance->setWriteKey('4ae51a53-c64a-43da-9284-278e0ad53120');
 
         $instance->setIsDemo(true);
+        $instance->setCreatedBy('IsItYet demo');
 
         $manager->persist($instance);
         $manager->flush();
