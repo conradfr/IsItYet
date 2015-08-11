@@ -42,11 +42,23 @@ class InstanceRepository extends EntityRepository
             $data['data']['status'] = $instance->getStatus();
         }
         elseif ($type === Instance::TYPE_COUNTDOWN) {
-            $dateStr = $instance->getUseTimezone() === true ? $instance->getendAt(false)->format(\DateTime::ISO8601)
-                : $instance->getendAt(false)->format('Y-m-d\TH:i:s');
+            $instanceEndAt = $instance->getendAt(false);
+            $endAtFormat = 'Y-m-d H:i:s';
 
-            $data['data']['endAt'] = $instance->getendAt(false)->format(\DateTime::ISO8601);
-            $data['data']['useTimezone'] = $instance->getUseTimezone();
+            if ($instance->getUseTimezone() === true) {
+                $endAtFormat = \DateTime::ISO8601;
+
+                // Put back the time offset minus the client's offset
+                $offsetDuration = $instance->getTimeOffset() - ($instanceEndAt->getOffset() / 60);
+                $offsetInterval = new \DateInterval('PT'. abs($offsetDuration) .'M');
+
+                if($offsetDuration > 0) { $instanceEndAt->sub($offsetInterval); }
+                else { $instanceEndAt->add($offsetInterval); }
+            }
+
+            $data['data']['endAt'] = $instanceEndAt->format($endAtFormat);
+            // $data['data']['useTimezone'] = $instance->getUseTimezone();
+            // $data['data']['timeOffset'] = $instance->getTimeOffset();
         }
 
         if ($withWriteKey === true) {

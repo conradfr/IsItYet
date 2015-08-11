@@ -15,10 +15,19 @@ class Countdown extends Instance
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_at", type="datetimetz")
-     * Assert\DateTime()
+     * @ORM\Column(name="end_at", type="datetime")
+     * @Assert\NotBlank()
      */
     private $endAt;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="time_offset", type="integer")
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer")
+     */
+    private $timeOffset;
 
     /**
      * @var boolean
@@ -33,12 +42,16 @@ class Countdown extends Instance
     public function setEndAt($endAt)
     {
         /*
-         * As we do not rely on the datetime form input but text instead (cf comment in InstanType),
+         * As we do not rely on the datetime form input but text instead (cf comment in InstanceType),
          * we transform the input string into a DateTime here
          */
         if (is_string($endAt)) {
             $endAt = new \DateTime($endAt);
         }
+
+        // We store the utc offset, datetime will be store without timezone, handling the useTimezone option with less effort
+        $dateTimeZone = $endAt->getTimezone();
+        $this->setTimeOffset($dateTimeZone->getOffset($endAt) / 60); // getOffset returns seconds, we want minutes
 
         $this->endAt = $endAt;
     }
@@ -53,6 +66,22 @@ class Countdown extends Instance
         }
 
         return $this->endAt;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimeOffset()
+    {
+        return $this->timeOffset;
+    }
+
+    /**
+     * @param int $timeOffset
+     */
+    public function setTimeOffset($timeOffset)
+    {
+        $this->timeOffset = $timeOffset;
     }
 
     /**
