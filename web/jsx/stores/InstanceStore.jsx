@@ -2,7 +2,9 @@
 
 var React = require('react/addons');
 var Reflux = require('reflux');
+
 var extend = require("xtend");
+var moment = require('moment');
 
 var InstanceActions = require('../actions/InstanceActions.jsx');
 var InstanceMixin = require('./InstanceMixin.jsx');
@@ -33,6 +35,12 @@ var InstanceStore = Reflux.createStore({
                 this.instance.data.status = false;
                 this.instance.data.time_left = 0;
 
+                // Cancel timezone if useTimezone is false (everybody use the same datetime)
+                this.instance.data.endAtParsed = moment(this.instance.data.endAt);
+/*                if (this.instance.data.useTimezone) {
+                    this.instance.data.endAtParsed.add(this.instance.data.timeOffset, 'm');
+                }*/
+
                 this.tick();
                 this.timer = setInterval(this.tick, 1000);
             }
@@ -42,14 +50,15 @@ var InstanceStore = Reflux.createStore({
         return this.instance || {};
     },
     tick: function() {
+
         var newData = {
-            time_left: new Date(this.instance.data.endAt) - new Date(),
+            time_left: moment.duration(this.instance.data.endAtParsed.diff(moment())),
             status: false
         };
 
-        if (newData.time_left < 1000) {
+        if (newData.time_left.asMilliseconds() < 1000) {
             clearInterval(this.timer);
-            newData.time_left = 0;
+            newData.time_left = moment.duration(0);
             newData.status = true;
         }
 
