@@ -12,7 +12,9 @@ var InstanceFormStore = Reflux.createStore({
     init: function(){
         this.instance = {
             data: {
-                type: 'boolean'
+                type: 'boolean',
+                showTextFalse: true,
+                useTimezone: false
             },
             status: {
                 isTypeChosen: false,
@@ -47,6 +49,7 @@ var InstanceFormStore = Reflux.createStore({
     },
     onInputUpdated: function(inputName, value) {
         this.instance.data[inputName] = value;
+        this.trigger(this.instance);
     },
     onStatusSubmitted: function (newStatus) {
         var newData = {

@@ -20,6 +20,8 @@ var InstanceFormSetup = React.createClass({
     },
     /**
      * @todo Look into Immutable & ReactLink alternatives to reduce duplicate code
+     *
+     * Only for text inputs
      */
     inputChange: function(inputName, event) {
         var newState = this.state.data;
@@ -36,8 +38,14 @@ var InstanceFormSetup = React.createClass({
     onTextFalseChange: function(event) {
         this.inputChange('textFalse', event);
     },
+    onShowTextFalseChange: function(event) {
+        InstanceFormActions.inputUpdated('showTextFalse', event.target.checked);
+    },
     onTextTrueChange: function(event) {
         this.inputChange('textTrue', event);
+    },
+    onAvoidTimezoneChange: function(event) {
+        InstanceFormActions.inputUpdated('useTimezone', !event.target.checked);
     },
     onDateChange: function(newDate) {
         var oldDate = this.state.data.endAt ? moment(this.state.data.endAt) : moment();
@@ -48,7 +56,7 @@ var InstanceFormSetup = React.createClass({
     onTimeChange: function(newTime) {
         var oldDate = this.state.data.endAt ? moment(this.state.data.endAt) : moment();
         var momentNewDate = moment(parseInt(newTime));
-        oldDate.set({'second': momentNewDate.get('second'), 'minute': momentNewDate.get('minute'), 'date': momentNewDate.get('hour')});
+        oldDate.set({'second': momentNewDate.get('second'), 'minute': momentNewDate.get('minute'), 'hour': momentNewDate.get('hour')});
         InstanceFormActions.inputUpdated('endAt', oldDate.format('YYYY-MM-DDTHH:mm:ssZZ'));
     },
     onSubmit: function(e) {
@@ -89,11 +97,6 @@ var InstanceFormSetup = React.createClass({
             }
         }
 
-/*        var clInputEditable = cx({
-            'form-control': true,
-            'has-error': this.state.status.errors.textTrue
-        });*/
-
         var Countdown = null;
         if (this.state.data.type === 'countdown') {
 
@@ -102,23 +105,41 @@ var InstanceFormSetup = React.createClass({
                 'has-error': (typeof this.state.status.errors.endAt !== 'undefined')
             });
 
-            if (this.state.data.endAt) {
-                InstanceFormActions.inputUpdated('endAt', moment().toISOString());
+            if (!this.state.data.endAt) {
+                InstanceFormActions.inputUpdated('endAt', moment().format('YYYY-MM-DDTHH:mm:ssZZ'));
             }
             var currEndAt = moment(this.state.data.endAt);
 
+            // Form
             Countdown =
-            <div className="row">
-                <div className="col-md-6 col-xs-12">
-                    <div className={clDateTime}>
-                        <label>Date</label>
-                        <DateTimeField mode='date' minDate={moment()} inputFormat='MM/DD/YYYY' dateTime={currEndAt} onChange={this.onDateChange} />
+            <div className="well">
+                <div className="row">
+                    <div className="col-md-6 col-xs-12">
+                        <div className={clDateTime}>
+                            <label>Countdown end date</label>
+                            <DateTimeField mode='date' minDate={moment()} inputFormat='MM/DD/YYYY' dateTime={currEndAt} onChange={this.onDateChange} />
+                        </div>
+                    </div>
+                    <div className="col-md-6 col-xs-12">
+                        <div className={clDateTime}>
+                            <label>Time</label>
+                            <DateTimeField mode='time' dateTime={currEndAt} inputFormat='h:mm A' onChange={this.onTimeChange} />
+                        </div>
                     </div>
                 </div>
-                <div className="col-md-6 col-xs-12">
-                    <div className={clDateTime}>
-                        <label>Time</label>
-                        <DateTimeField mode='time' dateTime={currEndAt} inputFormat='h:mm A' onChange={this.onTimeChange} />
+                <div className="row">
+                    <div className="col-md-12 col-xs-12">
+                        <div className="checkbox">
+                            <label>
+                                <input type="checkbox" name="avoidTimezone" ref="avoidTimezone" onChange={this.onAvoidTimezoneChange}
+                                       checked={ !this.state.data.useTimezone } />
+                                    Use the same time everywhere in the world
+                            </label>
+                            <span className="help-block">
+                                If checked, the countdown will end at the same time (e.g midnight) everywhere in the world<br />
+                                If unchecked, the end time will be adjusted according to yours' and visitor's timezones.
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>;
@@ -137,13 +158,20 @@ var InstanceFormSetup = React.createClass({
                                     { this.state.status.errors.title ? <p className="help-block">{this.state.status.errors.title}</p> : '' }
                                 </div>
 
-                                {Countdown}
-
                                 <div className={clTextFalse}>
                                     <label>First state text</label>
                                     <input type="text" ref="textFalse" className="form-control" value={this.state.data.textFalse} placeholder="Text before countdown is over or status is updated (default: NO)" onChange={this.onTextFalseChange} />
                                     { this.state.status.errors.textFalse ? <p className="help-block">{this.state.status.errors.textFalse}</p> : '' }
                                 </div>
+
+                                { this.state.data.type === 'countdown' ?
+                                    <div className="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="showTextFalse" ref="showTextFalse" onChange={this.onShowTextFalseChange}
+                                                checked={ this.state.data.showTextFalse } />
+                                            Show first state text
+                                        </label>
+                                    </div> : '' }
 
                                 <div className={clTextTrue}>
                                     <label>Second state text</label>
@@ -151,6 +179,8 @@ var InstanceFormSetup = React.createClass({
                                     { this.state.status.errors.textTrue ? <p className="help-block">{this.state.status.errors.textTrue}</p> : '' }
                                 </div>
                         </div>
+
+                        {Countdown}
 
                         <div className="well">
                             <div className={clCreatedBy}>
