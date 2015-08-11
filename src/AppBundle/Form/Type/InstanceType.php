@@ -62,7 +62,7 @@ class InstanceType extends AbstractType
                         ],
                     ]);
 
-                    $form->add('showFalseText', 'checkbox', array());
+                    $form->add('showTextFalse', 'checkbox', array());
                     $form->add('useTimezone', 'checkbox', array());
 
 /*                    $form->add('endAt', 'datetime', [
