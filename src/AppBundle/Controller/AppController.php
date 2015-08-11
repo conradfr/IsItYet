@@ -87,26 +87,10 @@ class AppController extends Controller implements BruteForceProtectionController
 
             // Construct response
             $responseData = $this->getDoctrine()->getRepository('AppBundle:Instance')->getExportableInstance($instance, true);
-            /*            $responseData = [
-                            'data' => [
-                                'title' => $instance->getTitle(),
-                                'textFalse' => $instance->getTextFalse(),
-                                'textTrue' => $instance->getTextTrue(),
-                            ],
-                            'meta' => [
-                                'publicKey' => $instance->getPublicKey(),
-                                'writeKey' => $instance->getWriteKey(),
-                                'editLink' => $this->generateUrl('app', ['publicKey' => $instance->getPublicKey(), 'writeKey' => $instance->getWriteKey()], true)
-                            ],
-                            'status' => [
-                                'created' => true,
-                                'error' => false,
-                                'deleted' => false
-                            ]
-                        ];*/
 
             $response->setData($responseData);
-        } else {
+        }
+        else {
             $response->setStatusCode(400)
                 ->setData([
                     // send normalized data
@@ -114,6 +98,7 @@ class AppController extends Controller implements BruteForceProtectionController
                         'title' => $instance->getTitle(),
                         'textFalse' => $instance->getTextFalse(),
                         'textTrue' => $instance->getTextTrue(),
+                        'createdBy' => $instance->getCreatedBy(),
                     ],
                     'status' => [
                         'isCreated' => false,
