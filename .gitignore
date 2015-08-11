@@ -56,4 +56,6 @@
 /tools/vagrant/puphpet/files/dot/ssh/id_rsa
 # capistrano
 /tools/capistrano/config/deploy/*.rb
+/tools/capistrano/ssh/deployer
+/tools/capistrano/ssh/deployer.pub
 /tools/capistrano/ssh/deployer*
