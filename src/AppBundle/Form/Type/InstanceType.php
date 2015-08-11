@@ -62,16 +62,30 @@ class InstanceType extends AbstractType
                         ],
                     ]);
 
-                    $form->add('showTextFalse', 'checkbox', array());
-                    $form->add('useTimezone', 'checkbox', array());
-
-/*                    $form->add('endAt', 'datetime', [
-                        'date_format' => "yyyy-MM-dd'T'HH:mm:ssZ",
-                        'format' => "yyyy-MM-dd'T'HH:mm:ssZ",
-                        'date_widget' => 'single_text',
-                        'time_widget' => 'single_text',
+                    // Additional inputs for endAt
+                    // https://github.com/symfony/symfony/issues/14712
+                    $form->add('showTextFalse', 'choice', [
+                        'choices' => array(
+                            'Yes' => true,
+                            'No' => false
+                        ),
+                        'choices_as_values' => true,
+                        'choice_value' => function ($currentChoiceKey) {
+                            return $currentChoiceKey ? 'true' : 'false';
+                        },
                         'error_bubbling' => false
-                    ]);*/
+                    ]);
+                    $form->add('useTimezone', 'choice', [
+                        'choices' => array(
+                            'Yes' => true,
+                            'No' => false
+                        ),
+                        'choices_as_values' => true,
+                        'choice_value' => function ($currentChoiceKey) {
+                            return $currentChoiceKey ? 'true' : 'false';
+                        },
+                        'error_bubbling' => false
+                    ]);
                 }
             });
     }
