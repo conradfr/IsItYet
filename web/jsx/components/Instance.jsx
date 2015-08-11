@@ -24,8 +24,7 @@ var Instance = React.createClass({
             );
         } else {
             components.push(
-                <InstanceStatus key="status" status={this.state.data.status} textFalse={this.state.data.textFalse}
-                                textTrue={this.state.data.textTrue} />);
+                <InstanceStatus key="status" />);
 
             if (this.state.data.type === 'countdown') {
                 components.push(<InstanceCountdown key="countdown" timeLeft={this.state.data.time_left} />);
