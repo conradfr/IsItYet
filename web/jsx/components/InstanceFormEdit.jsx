@@ -29,7 +29,8 @@ var InstanceFormEdit = React.createClass({
                     <div className="col-md-6">
                         { this.state.status.success.created === true ?
                             <div className="alert alert-success" role="alert">
-                                <p><strong>You page has been successfully created!</strong></p><p>Save this page url to be able to manage your page later.</p>
+                                <p><strong>You page has been successfully created!</strong> <a target="_blank" href={base_url + 'i/' + this.state.data.publicKey}>View it (new tab)</a></p>
+                                <p>Save this page url to be able to manage your page later.</p>
                             </div>
                             :'' }
 
