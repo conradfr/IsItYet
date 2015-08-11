@@ -57,7 +57,7 @@ class InstanceRepository extends EntityRepository
             }
 
             $data['data']['endAt'] = $instanceEndAt->format($endAtFormat);
-            // $data['data']['useTimezone'] = $instance->getUseTimezone();
+            $data['data']['useTimezone'] = $instance->getUseTimezone(); // used in form
             // $data['data']['timeOffset'] = $instance->getTimeOffset();
         }
 
