@@ -81,6 +81,8 @@ class AppController extends Controller implements BruteForceProtectionController
         $form->submit($request->request->all());
 
         if ($form->isValid()) {
+            $instance->setLastIpAddress($request->getClientIp()); // @todo replace with Iptraceable once DoctrineExtensions Bundle add support
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($instance);
             $em->flush();
@@ -139,6 +141,8 @@ class AppController extends Controller implements BruteForceProtectionController
         $form->submit($request->request->all());
 
         if ($form->isValid()) {
+            $instance->setLastIpAddress($request->getClientIp()); // @todo replace with Iptraceable once DoctrineExtensions Bundle add support
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($instance);
             $em->flush();
@@ -211,6 +215,7 @@ class AppController extends Controller implements BruteForceProtectionController
             $this->addToAntiBruteForce($request);
             $response->setStatusCode(404);
         } else {
+            $instance->setLastIpAddress($request->getClientIp()); // @todo replace with Iptraceable once DoctrineExtensions Bundle add support
             $instance->setStatus($statusParam);
             $em->flush();
 

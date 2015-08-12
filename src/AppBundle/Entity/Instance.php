@@ -93,6 +93,13 @@ class Instance
     private $isDemo = false;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="last_ip_address", type="inet", nullable=true)
+     */
+    private $lastIpAddress;
+
+    /**
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
@@ -107,6 +114,7 @@ class Instance
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
+
 
     /** @ORM\PrePersist */
     public function createUuidOnPrePersist()
@@ -274,6 +282,22 @@ class Instance
     public function setIsDemo($isDemo)
     {
         $this->isDemo = $isDemo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastIpAddress()
+    {
+        return $this->lastIpAddress;
+    }
+
+    /**
+     * @param string $lastIpAddress
+     */
+    public function setLastIpAddress($lastIpAddress)
+    {
+        $this->lastIpAddress = $lastIpAddress;
     }
 
     /**
