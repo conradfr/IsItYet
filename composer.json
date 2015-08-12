@@ -30,7 +30,8 @@
         "ramsey/uuid": "^2.8",
         "cboden/ratchet": "v0.3.3",
         "predis/predis-async": "dev-master",
-        "stof/doctrine-extensions-bundle": "v1.1.0"
+        "stof/doctrine-extensions-bundle": "v1.1.0",
+        "opensoft/doctrine-postgres-types": "1.1.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

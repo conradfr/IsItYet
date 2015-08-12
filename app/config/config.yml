@@ -78,7 +78,7 @@ doctrine:
         #     path:     "%database_path%"
         types:
 #            uuid: Rhumsaa\Uuid\Doctrine\UuidType.php
-
+            inet: "Doctrine\\DBAL\\PostgresTypes\\InetType"
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore

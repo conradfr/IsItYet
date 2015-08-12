@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c8a90dd3dd48acf346e889dd812e5254",
+    "hash": "e9e6950663cddb2e4be3f453826fdd53",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1869,6 +1869,46 @@
                 "psr-3"
             ],
             "time": "2015-08-09 17:44:44"
+        },
+        {
+            "name": "opensoft/doctrine-postgres-types",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/opensoft/doctrine-postgres-types.git",
+                "reference": "150d0be540c23dab7fee3a6d3dbf11e31e41a0c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/opensoft/doctrine-postgres-types/zipball/150d0be540c23dab7fee3a6d3dbf11e31e41a0c1",
+                "reference": "150d0be540c23dab7fee3a6d3dbf11e31e41a0c1",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "*",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\DBAL\\PostgresTypes\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Richard Fullmer",
+                    "email": "richard.fullmer@opensoftdev.com"
+                }
+            ],
+            "description": "Provide some common postgres types for doctrine",
+            "time": "2015-05-12 20:56:47"
         },
         {
             "name": "phpcollection/phpcollection",
