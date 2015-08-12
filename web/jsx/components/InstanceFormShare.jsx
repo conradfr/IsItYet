@@ -20,8 +20,15 @@ var InstanceFormShare = React.createClass({
                     <div className="well">
                         <div className="form-group">
                             <label>Public page link</label>
-                            <input type="text" ref="pagelink" className="form-control" value={base_url + 'i/' + this.state.data.publicKey}  onClick={this.onShareClick}
-                                   readOnly/>
+                            <div className="input-group">
+                                <input type="text" ref="pagelink" className="form-control" value={base_url + 'i/' + this.state.data.publicKey}  onClick={this.onShareClick}
+                                       readOnly/>
+                                <span className="input-group-btn">
+                                    <a className="btn btn-default pull-right" target="_blank" href={base_url + 'i/' + this.state.data.publicKey} role="button">
+                                        <span className="glyphicon glyphicon-share" aria-hidden="true"></span>
+                                    </a>
+                                </span>
+                            </div>
                         </div>
                         <div className="form-group">
                             <label>Edit link</label>
