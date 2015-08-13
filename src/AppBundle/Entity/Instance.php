@@ -53,7 +53,7 @@ class Instance
     /**
      * @var string
      *
-     * @ORM\Column(name="title", type="string", length=50)
+     * @ORM\Column(name="title", type="string", length=75)
      * @Assert\NotBlank(message="A title is mandatory.")
      */
     private $title;
