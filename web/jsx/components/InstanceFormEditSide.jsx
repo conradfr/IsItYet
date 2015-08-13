@@ -20,7 +20,8 @@ var InstanceFormShare = React.createClass({
         }
     )],
     componentDidMount: function () {
-       this.setState({isInCookie: true}); // optimistic
+        cookie.setRawCookie(document.cookie);
+        this.setState({isInCookie: this.isInCookie()});
     },
     onDeleteClick: function (e) {
         e.preventDefault();
