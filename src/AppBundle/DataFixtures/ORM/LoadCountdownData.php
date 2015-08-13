@@ -37,7 +37,7 @@ class LoadCountdownData implements FixtureInterface, ContainerAwareInterface
 
         $instance->setTitle("Is the end of the countdown reached ?");
 
-        $instance->setEndAt(new \DateTime('2015-08-12T00:00:00+0200'));
+        $instance->setEndAt(new \DateTime('2016-01-01T00:00:00+0200'));
 
         $instance->setUseTimezone(false);
 
