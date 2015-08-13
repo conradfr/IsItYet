@@ -5,10 +5,10 @@ requires:
     plumber: gulp-plumber
     less: gulp-less
     uglify: gulp-uglify
-    react: gulp-react
     copy: gulp-copy
     browserify: gulp-browserify
 #    gwatchify: web/gulp_tasks/gwatchify.js
+    stripDebug: gulp-strip-debug
 
 mimetypes:
     css:
@@ -94,7 +94,10 @@ mimetypes:
             outputFolder: "web/compiled/js"
             webPath: "/compiled/js"
             tasks:
+                - { name: "plumber" }
                 - { name: "browserify", args: {transform: "reactify", debug: false } }
+                - { name: "stripDebug" }
+                - { name: "uglify" }
 
         dev:
             autoRenaming: false,
