@@ -80,7 +80,7 @@ var InstanceFormShare = React.createClass({
                             <label>
                                 <input type="checkbox" name="cookieToggle" ref="cookietoggle" onChange={this.onCookieToggle}
                                        checked={ this.state.isInCookie } />
-                                Save your page link in this computer (top-right menu)
+                                Save your page link on this computer (top-right menu)
                             </label>
                             <span className="help-block">
                                 You should uncheck it if you're on a public computer.
