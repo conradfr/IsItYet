@@ -185,7 +185,7 @@ var InstanceFormSetup = React.createClass({
                         <div className="well">
                             <div className={clCreatedBy}>
                                 <label>Created by</label>
-                                <input type="text" ref="title" className="form-control" placeholder="Optional"
+                                <input type="text" ref="createdBy" className="form-control" placeholder="Optional"
                                        value={this.state.data.createdBy} onChange={this.onCreatedByChange}  />
                                 { this.state.status.errors.createdBy ? <p className="help-block">{this.state.status.errors.createdBy}</p> : '' }
                             </div>
