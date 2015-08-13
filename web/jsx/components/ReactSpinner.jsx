@@ -46,7 +46,7 @@ var ReactSpinner = React.createClass({
             this.spinner.spin(React.findDOMNode(this));
         }
     },
-    componentWillUnmount() {
+    componentWillUnmount: function() {
         this.spinner.stop();
     },
     render: function () {
