@@ -20,7 +20,7 @@ var InstanceFormShare = React.createClass({
         }
     )],
     componentDidMount: function () {
-       this.setState({isInCookie: this.isInCookie()});
+       this.setState({isInCookie: true}); // optimistic
     },
     onDeleteClick: function (e) {
         e.preventDefault();
@@ -38,7 +38,7 @@ var InstanceFormShare = React.createClass({
     },
     onCookieToggle: function(event) {
         if (this.isInCookie() === true) {
-            cookie.remove('instance[' + this.state.data.publicKey + ']');
+            cookie.remove('instance[' + this.state.data.publicKey + ']', '/');
         } else {
             var cookieContent =  this.state.data.writeKey;
             cookieContent += (this.state.data.title.length > 40) ? this.state.data.title.substr(0, 36) + ' ...' : this.state.data.title;
@@ -49,8 +49,8 @@ var InstanceFormShare = React.createClass({
             cookie.save('instance[' + this.state.data.publicKey + ']', cookieContent, {path: '/', 'expires': expires});
         }
 
-        InstanceFormStore.refreshDropdown();
         this.setState({isInCookie: this.isInCookie()});
+        InstanceFormStore.refreshDropdown();
     },
     render: function() {
         return (

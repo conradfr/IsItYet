@@ -3,6 +3,8 @@
 var React = require('react/addons');
 var Reflux = require('reflux');
 
+var cookie = require('react-cookie');
+
 var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 var InstanceMixin = require('./InstanceMixin.jsx');
 
@@ -210,6 +212,7 @@ var InstanceFormStore = Reflux.createStore({
      */
     refreshDropdown: function() {
         $(document.getElementById('instances-dropdown')).load(base_url + 'dropdown');
+        cookie.setRawCookie(document.cookie);
     }
 });
 

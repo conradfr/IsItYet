@@ -320,7 +320,7 @@ class AppController extends Controller implements BruteForceProtectionController
         $cookieContent = $instance->getWriteKey();
         $cookieContent .= (strlen($instance->getTitle()) > 40) ? substr($instance->getTitle(), 0, 36) . ' ...' : $instance->getTitle();
 
-        $response->headers->setCookie(new Cookie('instance[' . $instance->getPublicKey() . ']', $cookieContent, time() + (3600 * 24 * 365)));
+        $response->headers->setCookie(new Cookie('instance[' . $instance->getPublicKey() . ']', $cookieContent, time() + (3600 * 24 * 365), '/', null, false, false));
     }
 
     /**
