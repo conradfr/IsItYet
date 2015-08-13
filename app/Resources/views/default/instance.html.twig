@@ -16,7 +16,8 @@
     {{ parent() }}
     {% if app.environment == 'prod' %}
         <!-- prod:instance.css -->
-        <!-- endbuild -->
+<link rel="stylesheet" href="/compiled/css/instance.css/instance.css" />
+<!-- endbuild -->
     {% else %}
         <!-- dev:instance.css -->
 <link rel="stylesheet" href="/compiled_dev/css/instance.css/instance_0.css" />
@@ -32,6 +33,7 @@
 {% block react %}
 {% if app.environment == 'prod' %}
 <!-- prod:app-instance.js -->
+<script src="/compiled/js/app-instance.js/app-instance.js"></script>
 <!-- endbuild -->
 {% else %}
 <!-- dev:app-instance.js -->

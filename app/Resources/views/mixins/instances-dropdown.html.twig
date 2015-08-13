@@ -1,0 +1,17 @@
+{% if app.request.cookies.get('instance')|length > 0 %}
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Your pages<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+                {% for key,cookie in app.request.cookies.get('instance') %}
+                    {#<div class="pull-right"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></div>#}
+                    <li>
+                        <a href="{{ path('instance_edit', {'publicKey': key, 'writeKey': cookie[:36] }) }}">
+                            {{ cookie[36:] }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+{% endif %}

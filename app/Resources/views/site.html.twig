@@ -4,9 +4,11 @@
     {{ parent() }}
 {% if app.environment == 'prod' %}
 <!-- prod:bootstrap.css -->
+<link rel="stylesheet" href="/compiled/css/bootstrap.css/bootstrap.css" />
 <!-- endbuild -->
 
 <!-- prod:main.css -->
+<link rel="stylesheet" href="/compiled/css/main.css/main.css" />
 <!-- endbuild -->
 {% else %}
 <!-- dev:bootstrap.css -->
@@ -33,6 +35,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             {{ knp_menu_render('AppBundle:Builder:mainMenu', {'currentClass': 'active'}) }}
+
+            <div id="instances-dropdown">
+                {% include ":mixins:instances-dropdown.html.twig" %}
+            </div>
         </div><!-- /.nav-collapse -->
     </div><!-- /.container -->
 </nav><!-- /.navbar -->

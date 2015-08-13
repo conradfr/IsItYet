@@ -44,6 +44,7 @@
 {% block javascripts %}
 {% if app.environment == 'prod' %}
 <!-- prod:vendors.js -->
+<script src="/compiled/js/vendors.js/vendors.js"></script>
 <!-- endbuild -->
 {% else %}
 <!-- dev:vendors.js -->
@@ -55,7 +56,8 @@
 
 {% if app.environment == 'prod' %}
     <!-- prod:bootstrap.min.js -->
-    <!-- endbuild -->
+<script src="/compiled/js/bootstrap.min.js/bootstrap.min.js"></script>
+<!-- endbuild -->
 {% else %}
     <!-- dev:bootstrap.min.js -->
 <script src="/compiled_dev/js/bootstrap.min.js/bootstrap.min_0.js"></script>
