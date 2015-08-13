@@ -18,13 +18,19 @@ body {
   /* Set the fixed height of the footer here */
   height: 40px;
 
+  font-size: 13px;
+  small {
+    color: darken(@text-muted, 30%);
+    font-size: 11px;
+  }
+
   p {
-    color: @text-muted;
+    color: darken(@text-muted, 25%);
     margin: 8px 0;
   }
 
   a {
-    color: lighten(@text-muted, 2%);
+    color: darken(@text-muted, 25%);
 
     &:hover,
     &:focus {
