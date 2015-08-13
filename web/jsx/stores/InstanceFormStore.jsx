@@ -97,6 +97,7 @@ var InstanceFormStore = Reflux.createStore({
             })
             .always(function () {
                 this.instance.status.isLoading = false;
+                window.history.pushState(this.instance,'', base_url + 'instance');
                 this.trigger(this.instance);
             }.bind(this));
     },
@@ -140,15 +141,20 @@ var InstanceFormStore = Reflux.createStore({
             // Newly created instance ?
             if ((name === 'form') && (formIsCreated === false) && (this.instance.status.isCreated === true)) {
                 this.instance.status.success.created = true;
+                this.trigger(this.instance);
+
                 document.title = this.instance.data.title + ' - IsItYet';
                 window.history.pushState(this.instance,'', base_url + 'instance/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey);
-                this.trigger(this.instance);
+                this.refreshDropdown();
             }
             // Instance update ?
             else if ((name === 'form') && (formIsCreated === true)) {
                 this.instance.status.success.updated = true;
-                document.title = this.instance.data.title + ' - IsItYet';
                 this.trigger(this.instance);
+
+                document.title = this.instance.data.title + ' - IsItYet';
+                this.refreshDropdown();
+
                 setTimeout(function(){
                     this.instance.status.success.updated = false;
                     this.trigger(this.instance);
@@ -167,6 +173,7 @@ var InstanceFormStore = Reflux.createStore({
             else if (name === 'delete') {
                 this.instance.status.isDeleted = true;
                 this.trigger(this.instance);
+                this.refreshDropdown();
             }
         }
     },
@@ -194,6 +201,15 @@ var InstanceFormStore = Reflux.createStore({
 
         this.instance.status = React.addons.update(this.instance.status, {$merge: error});
         this.trigger(this.instance);
+    },
+    /**
+     * Update instances dropdown
+     *
+     * Not done in React as it's currently outside the root / not a SPA,
+     * so we settle for this in the store for now
+     */
+    refreshDropdown: function() {
+        $(document.getElementById('instances-dropdown')).load(base_url + 'dropdown');
     }
 });
 

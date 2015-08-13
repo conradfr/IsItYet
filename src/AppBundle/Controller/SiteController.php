@@ -38,4 +38,12 @@ class SiteController extends Controller
             'instance' => $instanceExport
         ]);
     }
+
+    /**
+     * @Route("/dropdown", name="instances_dropdown")
+     */
+    public function dropdownAction()
+    {
+        return $this->render(':mixins:instances-dropdown.html.twig', []);
+    }
 }

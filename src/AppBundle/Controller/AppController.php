@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-
+use Symfony\Component\HttpFoundation\Cookie;
 use AppBundle\Controller\BruteForceProtectionController;
 
 use AppBundle\Entity\Instance,
@@ -89,8 +89,10 @@ class AppController extends Controller implements BruteForceProtectionController
 
             // Construct response
             $responseData = $this->getDoctrine()->getRepository('AppBundle:Instance')->getExportableInstance($instance, true);
-
             $response->setData($responseData);
+
+            // Add cookie
+            $this->addOrUpdateCookie($response, $instance);
         }
         else {
             $response->setStatusCode(400)
@@ -157,7 +159,11 @@ class AppController extends Controller implements BruteForceProtectionController
             $redis->PUBLISH($instance->getPublicKey(), $serializer->serialize($responseData, 'json'));
 
             $response->setData($responseData);
-        } else {
+
+            // Update cookie
+            $this->addOrUpdateCookie($response, $instance);
+        }
+        else {
             $response->setStatusCode(400)
                 ->setData([
                     // send normalized data
@@ -267,6 +273,9 @@ class AppController extends Controller implements BruteForceProtectionController
             ];
         }
         else {
+            // Remove cookie
+            $this->deleteCookie($response, $instance);
+
             $em->remove($instance);
             $em->flush();
 
@@ -297,5 +306,28 @@ class AppController extends Controller implements BruteForceProtectionController
         /** @var \Predis\Client */
         $redis = $this->container->get('snc_redis.default');
         $redis->SET('bruteforce_' . $request->getClientIp(), $request->getClientIp(), 'EX', 2);
+    }
+
+    /**
+     * Add or update the instance cookie
+     *
+     * The cookie is used to store the public & write key and allows the top right menu
+     *
+     * @param JsonResponse $response
+     * @param Instance $instance
+     */
+    protected function addOrUpdateCookie(JsonResponse $response,Instance $instance) {
+        $cookieContent = $instance->getWriteKey();
+        $cookieContent .= (strlen($instance->getTitle()) > 40) ? substr($instance->getTitle(), 0, 36) . ' ...' : $instance->getTitle();
+
+        $response->headers->setCookie(new Cookie('instance[' . $instance->getPublicKey() . ']', $cookieContent, time() + (3600 * 24 * 365)));
+    }
+
+    /**
+     * @param JsonResponse $response
+     * @param Instance $instance
+     */
+    protected function deleteCookie(JsonResponse $response,Instance $instance) {
+        $response->headers->clearCookie('instance[' . $instance->getPublicKey() . ']');
     }
 }
