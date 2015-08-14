@@ -4,6 +4,7 @@ var React = require('react/addons');
 var Reflux = require('reflux');
 
 var cookie = require('react-cookie');
+var moment = require('moment');
 
 var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 var InstanceMixin = require('./InstanceMixin.jsx');
@@ -32,6 +33,10 @@ var InstanceFormStore = Reflux.createStore({
 
         if (typeof instanceData !== 'undefined') {
             this.updateInstance(instanceData);
+
+            if (this.instance.data.type === "countdown") {
+                this.instance.data.endAt = moment(this.instance.data.endAt).format('YYYY-MM-DDTHH:mm:ssZZ');
+            }
         }
 
         window.onpopstate = function(event) {
@@ -139,6 +144,10 @@ var InstanceFormStore = Reflux.createStore({
             var formIsCreated = this.instance.status.isCreated;
 
             this.updateInstance(data);
+
+            if (this.instance.data.type === "countdown") {
+                this.instance.data.endAt = moment(this.instance.data.endAt).format('YYYY-MM-DDTHH:mm:ssZZ');
+            }
 
             // Newly created instance ?
             if ((name === 'form') && (formIsCreated === false) && (this.instance.status.isCreated === true)) {
