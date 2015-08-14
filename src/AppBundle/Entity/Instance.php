@@ -134,7 +134,7 @@ class Instance
     }
 
     /**
-     * Instance can't be edited after 15 minutes of existence
+     * Instance can't be edited after 30 minutes of existence
      * @Assert\Callback
      */
     public function validate(ExecutionContextInterface $context)
@@ -152,8 +152,8 @@ class Instance
             $minutes += $diffDate->h * 60;
             $minutes += $diffDate->i;
 
-            if ($minutes > 15) {
-                $context->buildViolation("Settings can't be edited after 15 minutes.")
+            if ($minutes > 30) {
+                $context->buildViolation("Settings can't be edited after 30 minutes.")
                     // ->atPath('firstName')
                     ->addViolation();
             }

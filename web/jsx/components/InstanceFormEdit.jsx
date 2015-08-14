@@ -32,7 +32,7 @@ var InstanceFormEdit = React.createClass({
                             { this.state.data.isDemo === true ? '' :
                                 <div className="row">
                                     <div className="col-md-12 col-xs-12">
-                                        <div className="well" role="alert">You can only modify your page's settings 15 minutes after its creation.</div>
+                                        <div className="well" role="alert">You can only modify your page's settings 30 minutes after its creation.</div>
                                     </div>
                                 </div> }
                             <InstanceFormSetup />

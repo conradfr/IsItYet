@@ -87,12 +87,12 @@ var InstanceFormSetup = React.createClass({
             'has-error': this.state.status.errors.textTrue
         });
 
-        // Is instance still editable (15 minutes limit) ?
+        // Is instance still editable (30 minutes limit) ?
         var instanceEditable = true;
         if ((this.state.data.isDemo !== true) && (typeof this.state.data.createdAt !== 'undefined')) {
             var instanceDate = new Date(this.state.data.createdAt);
             var currDate = new Date();
-            if (((currDate - instanceDate) / (60 * 1000)) > 15) {
+            if (((currDate - instanceDate) / (60 * 1000)) > 30) {
                 var instanceEditable = false;
             }
         }
