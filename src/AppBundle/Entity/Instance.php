@@ -15,6 +15,7 @@ use JMS\Serializer\Annotation\Exclude;
  *
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="AppBundle\Entity\InstanceRepository")
+ * @ORM\Table(indexes={@ORM\Index(name="keys_idx", columns={"public_key", "write_key"})})
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="type", type="string")
  * @ORM\HasLifecycleCallbacks
