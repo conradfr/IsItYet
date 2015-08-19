@@ -73,7 +73,7 @@ class Instance
     /**
      * @var string
      *
-     * @ORM\Column(name="text_false", type="string", length=25)
+     * @ORM\Column(name="text_false", type="string", length=140)
      * @Assert\NotBlank(message="A status text is mandatory.")
      */
     private $textFalse = 'NO';
@@ -81,7 +81,7 @@ class Instance
     /**
      * @var string
      *
-     * @ORM\Column(name="text_true", type="string", length=25)
+     * @ORM\Column(name="text_true", type="string", length=140)
      * @Assert\NotBlank(message="A status text is mandatory.")
      */
     private $textTrue = 'YES';
@@ -249,7 +249,7 @@ class Instance
     public function setTextFalse($textFalse)
     {
         if (empty($textFalse)) { return; } // prevent form to overwrite with a null value so we can keep the default value
-        $this->textFalse = substr($textFalse, 0, 20);
+        $this->textFalse = substr($textFalse, 0, 140);
     }
 
     /**
@@ -266,7 +266,7 @@ class Instance
     public function setTextTrue($textTrue)
     {
         if (empty($textTrue)) { return; } // prevent form to overwrite with a null value so we can keep the default value
-        $this->textTrue = substr($textTrue, 0, 20);
+        $this->textTrue = substr($textTrue, 0, 140);
     }
 
     /**
