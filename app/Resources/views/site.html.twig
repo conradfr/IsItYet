@@ -2,23 +2,8 @@
 
 {% block stylesheets %}
     {{ parent() }}
-{% if app.environment == 'prod' %}
-<!-- prod:bootstrap.css -->
-<link rel="stylesheet" href="/compiled/css/bootstrap.css/bootstrap.css" />
-<!-- endbuild -->
-
-<!-- prod:main.css -->
-<link rel="stylesheet" href="/compiled/css/main.css/main.css" />
-<!-- endbuild -->
-{% else %}
-<!-- dev:bootstrap.css -->
-<link rel="stylesheet" href="/compiled_dev/css/bootstrap.css/bootswatch_0.css" />
-<!-- endbuild -->
-
-<!-- dev:main.css -->
-<link rel="stylesheet" href="/compiled_dev/css/main.css/main_0.css" />
-<!-- endbuild -->
-{% endif %}
+    <link rel="stylesheet" href="/assets/css/bootswatch.css" />
+    <link rel="stylesheet" href="/assets/css/main.css" />
 {% endblock %}
 
 {% block body %}

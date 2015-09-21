@@ -152,15 +152,16 @@ var InstanceFormSetup = React.createClass({
                         <div className="col-md-12 col-xs-12">
                             <div className="well">
                                 <div className={clTitle}>
-                                    <label>Title <small>(75 chars max)</small></label>
-                                    <input type="text" ref="title" className="form-control" placeholder="Title, question, topic ..."
+                                    <label><small>(75 chars max)</small>Title</label>
+                                    <input type="text" ref="title" className="form-control" maxLength="75" placeholder="Title, question, topic ..."
                                            value={this.state.data.title} onChange={this.onTitleChange}  />
                                     { this.state.status.errors.title ? <p className="help-block">{this.state.status.errors.title}</p> : '' }
                                 </div>
 
                                 <div className={clTextFalse}>
-                                    <label>First state text</label>
-                                    <input type="text" ref="textFalse" className="form-control" value={this.state.data.textFalse} placeholder="Text before countdown is over or status is updated (default: NO)" onChange={this.onTextFalseChange} />
+                                    <label><small>(140 chars max)</small>First state text</label>
+                                    <input type="text" ref="textFalse" className="form-control" value={this.state.data.textFalse} maxLength="140"
+                                           placeholder="Text before countdown is over or status is updated (default: NO)" onChange={this.onTextFalseChange} />
                                     { this.state.status.errors.textFalse ? <p className="help-block">{this.state.status.errors.textFalse}</p> : '' }
                                 </div>
 
@@ -174,8 +175,9 @@ var InstanceFormSetup = React.createClass({
                                     </div> : '' }
 
                                 <div className={clTextTrue}>
-                                    <label>Second state text</label>
-                                    <input type="text" ref="textTrue" className="form-control" value={this.state.data.textTrue} placeholder="Text after countdown is over or boolean is toggled (default: YES)" onChange={this.onTextTrueChange} />
+                                    <label><small>(140 chars max)</small>Second state text</label>
+                                    <input type="text" ref="textTrue" className="form-control" value={this.state.data.textTrue} maxLength="140"
+                                           placeholder="Text after countdown is over or boolean is toggled (default: YES)" onChange={this.onTextTrueChange} />
                                     { this.state.status.errors.textTrue ? <p className="help-block">{this.state.status.errors.textTrue}</p> : '' }
                                 </div>
                         </div>
@@ -184,8 +186,8 @@ var InstanceFormSetup = React.createClass({
 
                         <div className="well">
                             <div className={clCreatedBy}>
-                                <label>Created by</label>
-                                <input type="text" ref="createdBy" className="form-control" placeholder="Optional"
+                                <label><small>(25 chars max)</small>Created by</label>
+                                <input type="text" ref="createdBy" className="form-control" placeholder="Optional" maxLength="25"
                                        value={this.state.data.createdBy} onChange={this.onCreatedByChange}  />
                                 { this.state.status.errors.createdBy ? <p className="help-block">{this.state.status.errors.createdBy}</p> : '' }
                             </div>

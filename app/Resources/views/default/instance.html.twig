@@ -14,15 +14,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    {% if app.environment == 'prod' %}
-        <!-- prod:instance.css -->
-<link rel="stylesheet" href="/compiled/css/instance.css/instance.css" />
-<!-- endbuild -->
-    {% else %}
-        <!-- dev:instance.css -->
-<link rel="stylesheet" href="/compiled_dev/css/instance.css/instance_0.css" />
-<!-- endbuild -->
-    {% endif %}
+    <link rel="stylesheet" href="/assetscss/instance.css" />
 {% endblock %}
 
 {% block javascript_head %}
@@ -31,15 +23,7 @@
 {% endblock %}
 
 {% block react %}
-{% if app.environment == 'prod' %}
-<!-- prod:app-instance.js -->
-<script src="/compiled/js/app-instance.js/app-instance.js"></script>
-<!-- endbuild -->
-{% else %}
-<!-- dev:app-instance.js -->
-<script src="/compiled_dev/jsx/app-instance.js/app-instance.js"></script>
-<!-- endbuild -->
-    {% endif %}
+    <script src="/assets/js/app-instance.js"></script>
 {% endblock %}
 
 {% block javascripts %}
@@ -58,5 +42,4 @@
 
 {% block footer %}
     <p>Powered by <a href="{{ path('home') }}">IsItYet</a> - <a href="{{ path('app') }}">Create your own page</a></p>
-    </div>
 {% endblock %}

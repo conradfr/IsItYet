@@ -41,27 +41,9 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 {% block javascripts %}
-{% if app.environment == 'prod' %}
-<!-- prod:vendors.js -->
-<script src="/compiled/js/vendors.js/vendors.js"></script>
-<!-- endbuild -->
-{% else %}
-<!-- dev:vendors.js -->
-<script src="/compiled_dev/js/vendors.js/autobahn.min_0.js"></script>
-<script src="/compiled_dev/js/vendors.js/spin.min_1.js"></script>
-<!-- endbuild -->
-{% endif %}
+<script src="/assets/js/vendors.js"></script>
+<script src="/assets/js/bootstrap.min.js"></script>
 {% endblock %}
-
-{% if app.environment == 'prod' %}
-    <!-- prod:bootstrap.min.js -->
-<script src="/compiled/js/bootstrap.min.js/bootstrap.min.js"></script>
-<!-- endbuild -->
-{% else %}
-    <!-- dev:bootstrap.min.js -->
-<script src="/compiled_dev/js/bootstrap.min.js/bootstrap.min_0.js"></script>
-<!-- endbuild -->
-{% endif %}
 
 {% if app.environment == 'prod' %}
 <script>

@@ -34,7 +34,7 @@ var InstanceFormStore = Reflux.createStore({
         if (typeof instanceData !== 'undefined') {
             this.updateInstance(instanceData);
 
-            if (this.instance.data.type === "countdown") {
+            if (this.instance.data.type === 'countdown') {
                 this.instance.data.endAt = moment(this.instance.data.endAt).format('YYYY-MM-DDTHH:mm:ssZZ');
             }
         }
@@ -72,7 +72,8 @@ var InstanceFormStore = Reflux.createStore({
         };
         this.updateInstance(newData);
 
-        $.post(base_url + 'instance/status/' + this.instance.data.publicKey + '/' + this.instance.data.writeKey, '{"status": ' + this.instance.data.status + '}')
+        $.post(base_url + 'instance/status/' + this.instance.data.publicKey
+            + '/' + this.instance.data.writeKey, '{"status": ' + this.instance.data.status + '}')
             .done(function (data, status, headers) {
                 InstanceFormActions.instanceSubmitted.completed(data, 'formStatus');
             })
@@ -104,7 +105,6 @@ var InstanceFormStore = Reflux.createStore({
             })
             .always(function () {
                 this.instance.status.isLoading = false;
-                window.history.pushState(this.instance,'', base_url + 'instance');
                 this.trigger(this.instance);
             }.bind(this));
     },
@@ -180,9 +180,10 @@ var InstanceFormStore = Reflux.createStore({
                     this.trigger(this.instance);
                 }.bind(this), 2000);
             }
-            // Status update ?
+            // Instance delete ?
             else if (name === 'delete') {
                 this.instance.status.isDeleted = true;
+                window.history.pushState(this.instance,'', base_url + 'instance');
                 this.trigger(this.instance);
                 this.refreshDropdown();
             }
@@ -210,8 +211,7 @@ var InstanceFormStore = Reflux.createStore({
             errors: errors
         };
 
-        this.instance.status = React.addons.update(this.instance.status, {$merge: error});
-        this.trigger(this.instance);
+        this.updateInstance({status: error});
     },
     /**
      * Update instances dropdown
@@ -221,7 +221,7 @@ var InstanceFormStore = Reflux.createStore({
      */
     refreshDropdown: function() {
         $(document.getElementById('instances-dropdown')).load(base_url + 'dropdown');
-        cookie.setRawCookie(document.cookie);
+        cookie.setRawCookie(document.cookie); // update cookies in the components as it has no refresh function
     }
 });
 
