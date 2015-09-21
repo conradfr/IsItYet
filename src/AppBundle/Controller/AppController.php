@@ -21,6 +21,21 @@ use AppBundle\Entity\Instance,
  */
 class AppController extends Controller implements BruteForceProtectionController
 {
+    /**
+     * @Route("/status/{publicKey}", name="instance_status")
+     * @Method({"GET"})
+     */
+    public function statusAction($publicKey, Request $request)
+    {
+        $response = new JsonResponse();
+
+        $responseData = $this->getDoctrine()->getRepository('AppBundle:Instance')->getStatus($publicKey);
+
+        $response->setData($responseData);
+
+        return $response;
+    }
+
      /**
      * @Route("/{publicKey}/{writeKey}", name="app", defaults={"publicKey"="", "writeKey"=""})
      * @Method({"GET"})
@@ -186,10 +201,10 @@ class AppController extends Controller implements BruteForceProtectionController
     }
 
     /**
-     * @Route("/status/{publicKey}/{writeKey}", name="instance_status")
+     * @Route("/status/{publicKey}/{writeKey}", name="instance_status_update")
      * @Method({"POST"})
      */
-    public function statusAction($publicKey, $writeKey, Request $request)
+    public function statusUpdateAction($publicKey, $writeKey, Request $request)
     {
         $content = $request->getContent();
         if (!empty($content)) {

@@ -56,6 +56,10 @@ class Instance
      *
      * @ORM\Column(name="title", type="string", length=75)
      * @Assert\NotBlank(message="A title is mandatory.")
+     * @Assert\Length(
+     *      max = 75,
+     *      maxMessage = "Your name is too long ({{ limit }} characters max)."
+     * )
      */
     private $title;
 
@@ -65,7 +69,7 @@ class Instance
      * @ORM\Column(name="created_by", type="string", length=25, nullable=true)
      * @Assert\Length(
      *      max = 25,
-     *      maxMessage = "Your name is too long ({{ limit }} characters max }})"
+     *      maxMessage = "Your name is too long ({{ limit }} characters max)."
      * )
      */
     private $createdBy;
@@ -75,6 +79,10 @@ class Instance
      *
      * @ORM\Column(name="text_false", type="string", length=140)
      * @Assert\NotBlank(message="A status text is mandatory.")
+     * @Assert\Length(
+     *      max = 140,
+     *      maxMessage = "Your text is too long ({{ limit }} characters max)."
+     * )
      */
     private $textFalse = 'NO';
 
@@ -83,6 +91,10 @@ class Instance
      *
      * @ORM\Column(name="text_true", type="string", length=140)
      * @Assert\NotBlank(message="A status text is mandatory.")
+     * @Assert\Length(
+     *      max = 140,
+     *      maxMessage = "Your text is too long ({{ limit }} characters max)."
+     * )
      */
     private $textTrue = 'YES';
 
@@ -208,7 +220,7 @@ class Instance
      */
     public function setTitle($title)
     {
-        $this->title = substr($title, 0, 75);
+        $this->title = $title;
     }
 
     /**
@@ -249,7 +261,7 @@ class Instance
     public function setTextFalse($textFalse)
     {
         if (empty($textFalse)) { return; } // prevent form to overwrite with a null value so we can keep the default value
-        $this->textFalse = substr($textFalse, 0, 140);
+        $this->textFalse = $textFalse;
     }
 
     /**
@@ -266,7 +278,7 @@ class Instance
     public function setTextTrue($textTrue)
     {
         if (empty($textTrue)) { return; } // prevent form to overwrite with a null value so we can keep the default value
-        $this->textTrue = substr($textTrue, 0, 140);
+        $this->textTrue = $textTrue;
     }
 
     /**

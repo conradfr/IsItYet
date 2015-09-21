@@ -8,6 +8,18 @@ use AppBundle\Entity\Instance;
 
 class InstanceRepository extends EntityRepository
 {
+    public function getStatus($publicKey) {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()
+            ->select('i.status')
+            ->from('AppBundle:Boolean', 'i') // test
+            ->where('i.publicKey = :pkey');
+//            ->andWhere('i.type = :type');
+
+        $queryBuilder->setParameter('pkey', $publicKey);
+
+        return $queryBuilder->getQuery()->getSingleResult();
+    }
+
     /**
      * @param $instance
      */
