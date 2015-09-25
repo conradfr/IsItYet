@@ -40,9 +40,11 @@
 # Bower components
 /web/bower_components/
 
+# Node components
+/node_modules/
+
 # Compiled assets
-/web/compiled/
-/web/compiled_dev/
+/web/assets/
 
 # Tools
 /tools/vagrant/puphpet/config.yaml
