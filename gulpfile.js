@@ -14,7 +14,7 @@ var concat= require('gulp-concat');
 var es = require('event-stream');
 
 // Less files
-gulp.task('less',['bootstrap-fonts'], function () {
+gulp.task('less', function () {
 	return gulp.src(['./web/css/main.less', './web/css/instance.less', './web/css/darkly/bootswatch.less'])
 		.pipe(less({
 			paths: [ path.join(__dirname, 'less', 'includes') ]
@@ -23,7 +23,7 @@ gulp.task('less',['bootstrap-fonts'], function () {
 });
 
 // Copies Bootstrap js
-gulp.task('bootstrap-js', function() {
+gulp.task('bootstrap-js', ['bootstrap-fonts'], function() {
 	return gulp.src('./web/bower_components/bootstrap/dist/js/bootstrap.min.js')
 		.pipe(gulp.dest('./web/assets/js'))
 });
@@ -45,7 +45,7 @@ gulp.task('js',['bootstrap-js'], function() {
 // Watch changes
 gulp.task('watch', function() {
 	if (!argv.production) {
-		gulp.watch('.web/css/**/*.less', ['less']);
+		gulp.watch('./web/css/**/*.less', ['less']);
 		gulp.watch(['./web/js/*.js'], ['js']);
 	}
 });
