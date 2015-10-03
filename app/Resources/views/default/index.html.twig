@@ -4,13 +4,38 @@
     {{ parent() }} - A status page generator
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $( document ).ready(function() {
+            var slides = 2,
+            slideIndex = 1,
+            delay = 2000;
+
+            function incrSlideShow() {
+                slideIndex = (slideIndex < slides) ? (slideIndex + 1) : 1;
+                $('.jumbotron-example img').attr('src', '{{ asset('img/home-example') }}' + slideIndex + '.png');
+            }
+
+            var timer = setInterval(incrSlideShow, delay);
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
 {{ parent() }}
 <div class="jumbotron">
     <div class="container">
-        <h1>Is It ... Yet?</h1>
-        <p>Create a status page which update in real-time to anyone browsing it.</p>
-        <p><a class="btn btn-primary" href="{{ path('app') }}" role="button">Create your page &raquo;</a></p>
+        <div class="col-md-6 col-xs-12 col-sm-4">
+            <h1>Is It ... Yet?</h1>
+            <p>Create a status page which update in real-time to anyone browsing it.</p>
+            <p><a class="btn btn-primary" href="{{ path('app') }}" role="button">Create your page &raquo;</a></p>
+        </div>
+        <div class="col-md-6 col-sm-8 hidden-xs">
+            <div class="jumbotron-example">
+                <img alt="" src="{{ asset('img/home-example1.png') }}">
+            </div>
+        </div>
     </div>
 </div>
 
