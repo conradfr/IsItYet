@@ -39,31 +39,29 @@ SSHKit.config.command_map[:composer] = "php #{shared_path.join("composer.phar")}
 
 # File permissions
 set :file_permissions_groups, ["www-data"]
+set :file_permissions_users, ["www-data"]
 set :file_permissions_chmod_mode, "0774"
 
-set :permission_method, "chmod"
+set :permission_method, :acl
 set :use_set_permissions, true
 
 # is set to "web" as default
 set :bower_roles, "app"
 
+# npm options
+set :npm_flags, '--silent --no-spin'
+
+# set gulp task
+set :gulp_tasks, '--production'
+
 namespace :deploy do
   after :starting, 'composer:install_executable'
-  before "deploy:updated", "deploy:set_permissions:acl"
-  before "deploy:updated", "myproject:gassetic"
-  before "deploy:updated", "myproject:fixtures"
+  # before "deploy:updated", "deploy:set_permissions:acl"
+  before "deploy:updated", "gulp"
+  # before "deploy:updated", "myproject:fixtures"
 end
 
 namespace :myproject do
-
-  # run gassetic
-  task :gassetic do
-    on roles(:app) do
-      within release_path do
-        execute "gassetic", "build", "--env=#{fetch(:stage)}"
-      end
-    end
-  end
 
   # update db fixtures
   task :fixtures do
@@ -72,8 +70,6 @@ namespace :myproject do
 
         # todo: use migrations
         execute "php", "app/console", "doctrine:schema:update", "--force"
-
-
         execute "php", "app/console", "doctrine:fixtures:load", "--append"
       end
     end
