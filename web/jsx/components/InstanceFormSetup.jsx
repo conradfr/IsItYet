@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var Reflux = require('reflux');
 
 var cx = require('classnames');
@@ -18,7 +18,7 @@ var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 var InstanceFormSetup = React.createClass({
     mixins: [Reflux.connect(InstanceFormStore)],
     componentDidMount: function() {
-        React.findDOMNode(this.refs.title).focus();
+        this.refs.title.focus();
     },
     /**
      * @todo Look into Immutable & ReactLink alternatives to reduce duplicate code

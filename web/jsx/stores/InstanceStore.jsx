@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var Reflux = require('reflux');
 
 var extend = require('xtend');
@@ -25,8 +25,15 @@ var InstanceStore = Reflux.createStore({
                         //}
                     });
                 },
-                function (code, reason, detail) { }, {
+                function (code, reason, detail) {
+                    console.log('fail');
+                    console.log(code);
+                    console.log(reason);
+                    console.log(detail);
+                },
+                {
                     'skipSubprotocolCheck': true
+                    // 'retryDelay': 1000
                 }
             );
 

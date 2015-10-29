@@ -1,10 +1,11 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 
 var InstanceForm = require('./components/InstanceForm.jsx');
 
-React.render(
+ReactDOM.render(
 <InstanceForm />,
     document.getElementById('instance-form')
 );

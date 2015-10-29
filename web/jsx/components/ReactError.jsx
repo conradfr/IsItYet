@@ -1,8 +1,8 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var Reflux = require('reflux');
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 var InstanceFormStore = require('../stores/InstanceFormStore.jsx');
 
@@ -22,7 +22,7 @@ var ReactError = React.createClass({
 
         return (
             <div className="ajax-error">
-                <ReactCSSTransitionGroup transitionName="ajax-error">
+                <ReactCSSTransitionGroup transitionName="ajax-error" transitionEnterTimeout={300} transitionLeaveTimeout={500}>
                     {  errorAlert }
                 </ReactCSSTransitionGroup>
             </div>
