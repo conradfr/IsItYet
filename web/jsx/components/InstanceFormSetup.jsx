@@ -3,6 +3,8 @@
 var React = require('react/addons');
 var Reflux = require('reflux');
 
+var cx = require('classnames');
+
 var ReactSpinner = require('./ReactSpinner.jsx');
 var ReactAjaxStatus = require('./ReactAjaxStatus.jsx');
 var ReactError = require('./ReactError.jsx');
@@ -65,25 +67,20 @@ var InstanceFormSetup = React.createClass({
     },
     render: function() {
         //has-error
-        var cx = React.addons.classSet;
 
-        var clTitle = cx({
-            'form-group': true,
+        var clTitle = cx('form-group', {
             'has-error': this.state.status.errors.title
         });
 
-        var clCreatedBy = cx({
-            'form-group': true,
+        var clCreatedBy = cx('form-group', {
             'has-error': this.state.status.errors.createdBy
         });
 
-        var clTextFalse = cx({
-            'form-group': true,
+        var clTextFalse = cx('form-group', {
             'has-error': this.state.status.errors.textFalse
         });
 
-        var clTextTrue = cx({
-            'form-group': true,
+        var clTextTrue = cx('form-group', {
             'has-error': this.state.status.errors.textTrue
         });
 

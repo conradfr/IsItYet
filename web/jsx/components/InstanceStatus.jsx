@@ -3,6 +3,7 @@
 var React = require('react/addons');
 var Reflux = require('reflux');
 
+var cx = require('classnames');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var InstanceStore = require('../stores/InstanceStore.jsx');
@@ -10,7 +11,6 @@ var InstanceStore = require('../stores/InstanceStore.jsx');
 var InstanceStatus = React.createClass({
     mixins: [Reflux.connect(InstanceStore)],
     render: function() {
-        var cx = React.addons.classSet;
         var classes = cx({
             'status-ok': this.state.data.status,
             'status-no': !this.state.data.status

@@ -2,25 +2,22 @@
 
 var React = require('react');
 
+var cx = require('classnames');
+
 var InstanceCountdown = React.createClass({
     render: function() {
         var timeLeft = this.props.timeLeft;
-        var cx = React.addons.classSet;
 
-        var classesDays = cx({
-            'ct-part': true,
+        var classesDays = cx('ct-part', {
             'tamed': (Math.floor(timeLeft.asDays()) === 0)
         });
-        var classesHours = cx({
-            'ct-part': true,
+        var classesHours = cx('ct-part', {
             'tamed': (Math.floor(timeLeft.asHours()) === 0)
         });
-        var classesMinutes = cx({
-            'ct-part': true,
+        var classesMinutes = cx('ct-part', {
             'tamed': (Math.floor(timeLeft.asMinutes()) === 0)
         });
-        var classesSeconds = cx({
-            'ct-part': true,
+        var classesSeconds = cx('ct-part', {
             'tamed': (Math.floor(timeLeft.asSeconds()) === 0)
         });
 
