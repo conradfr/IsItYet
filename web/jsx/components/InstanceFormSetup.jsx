@@ -1,7 +1,9 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var Reflux = require('reflux');
+
+var cx = require('classnames');
 
 var ReactSpinner = require('./ReactSpinner.jsx');
 var ReactAjaxStatus = require('./ReactAjaxStatus.jsx');
@@ -16,7 +18,7 @@ var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 var InstanceFormSetup = React.createClass({
     mixins: [Reflux.connect(InstanceFormStore)],
     componentDidMount: function() {
-        React.findDOMNode(this.refs.title).focus();
+        this.refs.title.focus();
     },
     /**
      * @todo Look into Immutable & ReactLink alternatives to reduce duplicate code
@@ -65,25 +67,20 @@ var InstanceFormSetup = React.createClass({
     },
     render: function() {
         //has-error
-        var cx = React.addons.classSet;
 
-        var clTitle = cx({
-            'form-group': true,
+        var clTitle = cx('form-group', {
             'has-error': this.state.status.errors.title
         });
 
-        var clCreatedBy = cx({
-            'form-group': true,
+        var clCreatedBy = cx('form-group', {
             'has-error': this.state.status.errors.createdBy
         });
 
-        var clTextFalse = cx({
-            'form-group': true,
+        var clTextFalse = cx('form-group', {
             'has-error': this.state.status.errors.textFalse
         });
 
-        var clTextTrue = cx({
-            'form-group': true,
+        var clTextTrue = cx('form-group', {
             'has-error': this.state.status.errors.textTrue
         });
 
@@ -108,7 +105,7 @@ var InstanceFormSetup = React.createClass({
             if (!this.state.data.endAt) {
                 InstanceFormActions.inputUpdated('endAt', moment().format('YYYY-MM-DDTHH:mm:ssZZ'));
             }
-            var currEndAt = moment(this.state.data.endAt);
+            var currEndAt = moment(this.state.data.endAt).format('x');
 
             // Form
             Countdown =

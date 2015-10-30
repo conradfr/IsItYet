@@ -1,8 +1,8 @@
 'use strict';
 
-var React = require('react/addons');
+var React = require('react');
 var Reflux = require('reflux');
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 var InstanceFormStore = require('../stores/InstanceFormStore.jsx');
 
@@ -15,7 +15,7 @@ var ReactAjaxStatus = React.createClass({
         var okIcon = this.state.status.success[this.props.status] === true ? <span key="ajax-ok" className="glyphicon glyphicon-ok" aria-hidden="true"></span> : [];
         return (
             <div className="ajax-success">
-                    <ReactCSSTransitionGroup transitionName="ajax-success">
+                    <ReactCSSTransitionGroup transitionName="ajax-success" transitionEnterTimeout={300} transitionLeaveTimeout={200}>
                         { okIcon }
                     </ReactCSSTransitionGroup>
                 </div>

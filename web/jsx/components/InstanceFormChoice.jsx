@@ -8,7 +8,7 @@ var InstanceFormActions = require('../actions/InstanceFormActions.jsx');
 
 var InstanceFormChoice = React.createClass({
     componentDidMount: function() {
-        // React.findDOMNode(this.refs.type).focus();
+        // this.refs.type.focus();
     },
     getInitialState: function () {
         return InstanceFormStore.getInitialState();

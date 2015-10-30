@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Reflux = require('reflux');
 
 var InstanceFormStore = require('../stores/InstanceFormStore.jsx');
@@ -34,7 +35,7 @@ var ReactSpinner = React.createClass({
             position: 'static'
         };
         this.spinner = new Spinner(opts);
-        this.spinner.spin(React.findDOMNode(this));
+        this.spinner.spin(ReactDOM.findDOMNode(this));
         if ((this.state.isLoading === false) || (this.state.isLoading !== this.props.identifier)) {
             this.spinner.stop();
         }
@@ -43,7 +44,7 @@ var ReactSpinner = React.createClass({
         if (newState.isLoading === false && this.state.isLoading === this.props.identifier) {
             this.spinner.stop();
         } else if (newState.isLoading === this.props.identifier && !this.state.isLoading) {
-            this.spinner.spin(React.findDOMNode(this));
+            this.spinner.spin(ReactDOM.findDOMNode(this));
         }
     },
     componentWillUnmount: function() {

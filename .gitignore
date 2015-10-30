@@ -46,6 +46,9 @@
 # Compiled assets
 /web/assets/
 
+# Websocker server dev log
+websocket/nohup.out
+
 # Tools
 /tools/vagrant/puphpet/config.yaml
 # generated during provisionning
