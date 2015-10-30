@@ -105,7 +105,7 @@ var InstanceFormSetup = React.createClass({
             if (!this.state.data.endAt) {
                 InstanceFormActions.inputUpdated('endAt', moment().format('YYYY-MM-DDTHH:mm:ssZZ'));
             }
-            var currEndAt = moment(this.state.data.endAt);
+            var currEndAt = moment(this.state.data.endAt).format('x');
 
             // Form
             Countdown =
