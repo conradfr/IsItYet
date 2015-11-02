@@ -6,6 +6,10 @@ use AppBundle\Utils\Pusher;
 use AppBundle\Utils\YamlAppLoader;
 use Symfony\Component\Config\FileLocator;
 
+/**
+ * @todo test https://github.com/swoole/swoole-src as an alternative WS server
+ */
+
 /* Config */
 
 $configDirectories = array(__DIR__.'/../app/config');
