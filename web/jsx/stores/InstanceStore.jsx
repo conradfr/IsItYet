@@ -26,10 +26,10 @@ var InstanceStore = Reflux.createStore({
                     });
                 },
                 function (code, reason, detail) {
-                    console.log('fail');
+/*                    console.log('fail');
                     console.log(code);
                     console.log(reason);
-                    console.log(detail);
+                    console.log(detail);*/
                 },
                 {
                     'skipSubprotocolCheck': true
