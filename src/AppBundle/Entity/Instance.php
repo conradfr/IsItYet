@@ -38,7 +38,7 @@ class Instance
     /**
      * @var string
      *
-     * @Gedmo\Slug(fields={"title", "id"}, unique=true, updatable=false)
+     * @Gedmo\Slug(fields={"title"}, unique=true, updatable=false)
      * @ORM\Column(name="public_key", type="string")
      */
     private $publicKey;
