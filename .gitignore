@@ -47,19 +47,12 @@
 /web/assets/
 
 # Websocker server dev log
-websocket/nohup.out
+/websocket/nohup.out
 
-# Tools
+# Vagrant
 /tools/vagrant/puphpet/config.yaml
-# generated during provisionning
-/tools/vagrant/.vagrant/
-/tools/vagrant/puphpet/files/dot/ssh/root_id_rsa.ppk
-/tools/vagrant/puphpet/files/dot/ssh/root_id_rsa.pub
-/tools/vagrant/puphpet/files/dot/ssh/id_rsa.ppk
-/tools/vagrant/puphpet/files/dot/ssh/id_rsa.pub
-/tools/vagrant/puphpet/files/dot/ssh/root_id_rsa
-/tools/vagrant/puphpet/files/dot/ssh/id_rsa
-# capistrano
+
+# Capistrano
 /tools/capistrano/config/deploy/*.rb
 /tools/capistrano/ssh/deployer
 /tools/capistrano/ssh/deployer.pub
