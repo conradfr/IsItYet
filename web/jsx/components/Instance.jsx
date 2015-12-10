@@ -43,7 +43,7 @@ var Instance = React.createClass({
                         { components }
                     </div>
                 </div>
-                <InstanceFooter createdBy={this.state.data.createdBy} publicKey={this.state.data.publicKey} />
+                <InstanceFooter live={this.state.status.live} lastUpdated={this.state.status.lastUpdated} createdBy={this.state.data.createdBy} publicKey={this.state.data.publicKey} />
             </div>
         );
     }

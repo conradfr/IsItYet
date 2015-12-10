@@ -6,9 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-use AppBundle\Entity\Instance,
-    AppBundle\Form\Type\InstanceType;
+use AppBundle\Entity\Instance;
 
 class SiteController extends Controller
 {
@@ -24,7 +24,7 @@ class SiteController extends Controller
     /**
      * @Route("/i/{publicKey}", name="instance_view")
      */
-    public function viewAction($publicKey)
+    public function viewAction($publicKey, Request $request)
     {
         $instance = $this->getDoctrine()->getRepository('AppBundle:Instance')->findOneByPublicKey($publicKey);
 
@@ -33,6 +33,13 @@ class SiteController extends Controller
         }
 
         $instanceExport = $this->getDoctrine()->getRepository('AppBundle:Instance')->getExportableInstance($instance);
+
+        /** Assuming for now that an ajax request wants json */
+        if ($request->isXmlHttpRequest()) {
+            $response = new JsonResponse();
+            $response->setData($instanceExport);
+            return $response;
+        }
 
         return $this->render('default/instance.html.twig', [
             'instance' => $instanceExport

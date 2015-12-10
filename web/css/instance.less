@@ -30,7 +30,7 @@ body {
   padding: 0;
   //margin-bottom: 40px;
 
-  background-image: linear-gradient(to bottom, @background-color 0px, lighten(@background-color, 3%) 100%);
+  background-image: linear-gradient(to bottom, @background-color 0px, lighten(@background-color, 1%) 100%);
   background-repeat: repeat-x;
   background-color: @background-color;
 
@@ -170,13 +170,28 @@ body {
         height: 50px;
         text-align: center;
 
-        .creator {
+        .creator, .reload-status {
           color: darken(white, 70%);
           font-size: 0.85rem;
-          margin-bottom: 15px;
+          margin-bottom: 8px;
           span.name {
             color: darken(white, 30%);
             font-weight: bold;
+          }
+        }
+
+        .reload-status {
+          font-size: 0.8rem;
+          margin-bottom: 12px;
+
+          span.reload-status-on {
+            color: darken(green, 10%);
+            font-weight: bold;
+          }
+
+          span.reload-status-time {
+            color: darken(white, 57%);
+            font-weight: normal;
           }
         }
 
@@ -198,7 +213,6 @@ body {
           }
         }
       }
-
     }
   }
 }

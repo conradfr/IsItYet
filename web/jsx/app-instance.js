@@ -9,3 +9,4 @@ ReactDOM.render(
 <Instance />,
     document.getElementById('instance')
 );
+
