@@ -94,7 +94,8 @@ var InstanceFormShare = React.createClass({
                     <div className="well">
                         <ReactError identifier="delete" />
                         <ReactSpinner identifier="delete" leftPos="28%" />
-                        <button type="button" className="btn btn-danger center-block" disabled={this.state.data.isDemo === true} onClick={this.onDeleteClick}>Delete this page</button>
+                        {/* disabled={this.state.data.isDemo === true} */}
+                        <button type="button" className="btn btn-danger center-block" onClick={this.onDeleteClick}>Delete this page</button>
                     </div>
                 </fieldset>
 

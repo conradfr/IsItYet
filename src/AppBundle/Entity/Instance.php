@@ -165,11 +165,10 @@ class Instance
             $minutes += $diffDate->h * 60;
             $minutes += $diffDate->i;
 
-            if ($minutes > 30) {
+/*            if ($minutes > 30) {
                 $context->buildViolation("Settings can't be edited after 30 minutes.")
-                    // ->atPath('firstName')
                     ->addViolation();
-            }
+            }*/
         }
     }
 
