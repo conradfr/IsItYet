@@ -1,4 +1,4 @@
 IsItYet
 =========
 
-http://www.isityet.io
+http://isityet.funkybits.fr
