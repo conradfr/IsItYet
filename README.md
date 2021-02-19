@@ -1,4 +1,6 @@
 IsItYet
 =========
 
-http://isityet.funkybits.fr
+~~http://isityet.funkybits.fr~~
+
+Discontinued.
