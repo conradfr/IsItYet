@@ -1,12 +1,12 @@
 GIT
-  remote: git://github.com/capistrano/symfony.git
-  revision: ca56a01b817097d2831400ef9b1867fc8e07dcf8
+  remote: https://github.com/capistrano/symfony.git
+  revision: 24dc0408cb749ad6cf6279583bc9d62777f9a515
   branch: master
   specs:
-    capistrano-symfony (0.4.0)
+    capistrano-symfony (2.0.0)
       capistrano (~> 3.1)
       capistrano-composer (~> 0.0.3)
-      capistrano-file-permissions (~> 0.1.0)
+      capistrano-file-permissions (~> 1.0)
 
 GEM
   remote: https://rubygems.org/
@@ -19,14 +19,16 @@ GEM
       capistrano (~> 3.0)
     capistrano-composer (0.0.6)
       capistrano (>= 3.0.0.pre)
-    capistrano-file-permissions (0.1.1)
-      capistrano (~> 3.1)
+    capistrano-file-permissions (1.0.0)
+      capistrano (~> 3.0)
     capistrano-gulp (0.0.1)
       capistrano (~> 3.0)
     capistrano-npm (1.0.1)
       capistrano (>= 3.0.0)
     colorize (0.7.7)
-    i18n (0.7.0)
+    concurrent-ruby (1.1.10)
+    i18n (1.10.0)
+      concurrent-ruby (~> 1.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
